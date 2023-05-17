@@ -10,15 +10,19 @@ from .models import User
 
 @api_view(['POST'])
 def signup(request):
+    
     password1 = request.data.get('password1')
     password2 = request.data.get('password2')
     username = request.data.get('username')
+    
     if password1 != password2 :
         return Response({'error' : '비밀번호가 일치하지 않습니다. 다시 입력해주세요.'}, status.HTTP_400_BAD_REQUEST)
     
     serializer = UserSerializer(data=request.data)
+    request.data['password'] = password1
+    
     if serializer.is_valid(raise_exception=True) :
         user = serializer.save()
-        user.set_password(request.data.get('password1'))
+        user.set_password(request.data.get('password'))
         user.save()
     return Response(serializer.data, status=status.HTTP_201_CREATED)

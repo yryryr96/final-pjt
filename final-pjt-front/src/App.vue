@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
+      <h1>Hi</h1>
+      <router-link :to="{name : 'SignUpView'}">Sign up</router-link>
     <router-view/>
   </div>
 </template>

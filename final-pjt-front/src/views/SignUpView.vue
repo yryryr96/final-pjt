@@ -1,17 +1,51 @@
 <template>
     <div>
         <h1>SignUpView</h1>
-        <form></form>
-        <form></form>
-        <form></form>
+        <h1>Sign Up Page</h1>
+    <form @submit.prevent="signUp">
+      <label for="username">username : </label>
+      <input type="text" id="username" v-model="username"><br>
+
+      <label for="password1"> password : </label>
+      <input type="password" id="password1" v-model="password1"><br>
+
+      <label for="password2"> password confirmation : </label>
+      <input type="password" id="password2" v-model="password2">
+      
+      <input type="submit" value="SignUp">
+    </form>
         
     </div>
   
 </template>
 
 <script>
+import axios from 'axios'
+const SERVER_URL = 'http://127.0.0.1:8000'
+
 export default {
-    name : 'SignUpView'
+    name : 'SignUpView',
+    data() {
+        return {
+            username : '',
+            password1 : '',
+            password2 : '',
+        }
+    },
+    methods : {
+        signUp(){
+            console.log('HI')
+            const username = this.username
+            const password1 = this.password1
+            const password2 = this.password2
+
+            const payload = {
+                username, password1, password2
+            }
+            this.$store.dispatch('signUp',payload)
+            
+        }
+    }
 
 }
 </script>
