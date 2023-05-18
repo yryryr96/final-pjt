@@ -4,8 +4,8 @@ import requests
 import json
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import Movie
-from .serializers import MovieSerializer, MovieDetailSerializer, MovieReviewSerializer
+from .models import *
+from .serializers import *
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -118,10 +118,65 @@ def create_review(request, movie_id):
         serializer = MovieReviewSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(movie=movie, user=request.user)
-            print(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     elif request.method == 'GET':
         movieReviews = movie.reviews.all()
         serializer = MovieReviewSerializer(movieReviews, many=True)
         return Response(serializer.data)
+    
+
+@api_view(['DELETE', 'PUT'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def review_detail(request, review_id):
+    review = get_object_or_404(MovieReview, pk=review_id)
+    if request.user.moviereview_set.filter(pk=review_id).exists():
+        if request.method == 'DELETE':
+            review.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        
+        elif request.method == 'PUT':
+            serializer = MovieReviewSerializer(review, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)
+    return Response({'detail': '권한이 없습니다.'})
+
+
+@api_view(['POST', 'GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def article_list(request):
+    if request.method == 'GET':
+        articles = get_list_or_404(Article)
+        serializer = ArticleSerializer(articles, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = ArticleSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+
+@api_view(['GET', 'DELETE', 'PUT'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def article_detail(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+    if request.method == 'GET':
+        serializer = ArticleDetailSerializer(article)
+        return Response(serializer.data)
+    
+    if request.user.article_set.filter(pk=article_id).exists():
+        if request.method == 'DELETE':
+            article.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        
+        elif request.method == 'PUT':
+            serializer = ArticleSerializer(article, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data)
+    return Response({'detail': '권한이 없습니다.'})
