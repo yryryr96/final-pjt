@@ -13,6 +13,7 @@ class UserManager(BaseUserManager):
             login_id=login_id,
             username=username,
         )
+               
         user.set_password(password)
         user.save(using=self._db)
         return user
