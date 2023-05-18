@@ -3,8 +3,12 @@ from django.shortcuts import render, get_list_or_404, get_object_or_404
 import requests
 import json
 from rest_framework.decorators import api_view
+from rest_framework import status
 from .models import Movie
-from .serializers import MovieSerializer, MovieDetailSerializer
+from .serializers import MovieSerializer, MovieDetailSerializer, MovieReviewSerializer
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 TMDB_API_KEY = '386ea6e619bc3b5721f33392e34505c2'
 
@@ -101,4 +105,23 @@ def movie_detail(request, movie_id):
 
         serializer = MovieDetailSerializer(moviedetail)
 
+        return Response(serializer.data)
+    
+
+
+@api_view(['POST', 'GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def create_review(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    if request.method == 'POST':
+        serializer = MovieReviewSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(movie=movie, user=request.user)
+            print(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    elif request.method == 'GET':
+        movieReviews = movie.reviews.all()
+        serializer = MovieReviewSerializer(movieReviews, many=True)
         return Response(serializer.data)

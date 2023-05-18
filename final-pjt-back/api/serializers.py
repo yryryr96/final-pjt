@@ -7,9 +7,11 @@ class GenreSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MovieReviewSerializer(serializers.ModelSerializer):
+    like_count = serializers.IntegerField(source='like_MovieReview.count', read_only=True)
     class Meta:
         model = MovieReview
-        fields = ('id', 'content',)
+        fields = ('id', 'content', 'like_count',)
+        read_only_fields = ('user',)
 
 class MovieSerializer(serializers.ModelSerializer):
     reviews = MovieReviewSerializer(many=True, read_only=True)
