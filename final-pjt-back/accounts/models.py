@@ -39,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     followings = models.ManyToManyField('self',symmetrical=False,related_name='followers', blank=True)
-    like_genres = models.ManyToManyField(Genre)
+    like_genres = models.ManyToManyField(Genre, blank=True)
 
     objects = UserManager()
 

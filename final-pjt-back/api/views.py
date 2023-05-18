@@ -1,6 +1,14 @@
-from django.shortcuts import render
+from rest_framework.response import Response
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 import requests
 import json
+from rest_framework.decorators import api_view
+from rest_framework import status
+from .models import Movie
+from .serializers import MovieSerializer, MovieDetailSerializer, MovieReviewSerializer
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 TMDB_API_KEY = '386ea6e619bc3b5721f33392e34505c2'
 
@@ -59,3 +67,61 @@ def get_genres(request):
 
     with open('genre_data.json', 'w', encoding='utf-8') as w:
         json.dump(total_data, w, indent=2, ensure_ascii=False)
+
+
+@api_view(['GET'])
+def movie_list(request):
+    if request.method == 'GET':
+        movies = get_list_or_404(Movie)
+        serializer = MovieSerializer(movies, many=True)
+        return Response(serializer.data)
+    
+# @api_view(['GET'])
+# def movie_detail(request, movie_id):
+#     if request.method == 'GET':
+#         movie = get_object_or_404(Movie, id=movie_id)
+#         serializer = MovieSerializer(movie)
+#         return Response(serializer.data)
+    
+@api_view(['GET'])
+def movie_detail(request, movie_id):
+    if request.method == 'GET':
+        moviedetail = get_object_or_404(Movie, pk=movie_id)
+
+        request_url = f'https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={TMDB_API_KEY}&language=ko-KR'
+        movie = requests.get(request_url).json()
+        actors = []
+        directors = []
+        for person in movie['cast']:
+            if person['known_for_department'] == 'Acting':
+                actors.append([person['name'], person['popularity']])
+            elif person['known_for_department'] == 'Directing':
+                directors.append([person['name'], person['popularity']])
+        actors.sort(key = lambda x : -x[1])
+        directors.sort(key = lambda x : -x[1])
+
+        setattr(moviedetail, 'actors', actors[:4])
+        setattr(moviedetail, 'directors', directors[0])
+
+        serializer = MovieDetailSerializer(moviedetail)
+
+        return Response(serializer.data)
+    
+
+
+@api_view(['POST', 'GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def create_review(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    if request.method == 'POST':
+        serializer = MovieReviewSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(movie=movie, user=request.user)
+            print(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    elif request.method == 'GET':
+        movieReviews = movie.reviews.all()
+        serializer = MovieReviewSerializer(movieReviews, many=True)
+        return Response(serializer.data)
