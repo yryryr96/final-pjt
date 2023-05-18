@@ -175,8 +175,32 @@ def article_detail(request, article_id):
             return Response(status=status.HTTP_204_NO_CONTENT)
         
         elif request.method == 'PUT':
-            serializer = ArticleSerializer(article, data=request.data)
+            serializer = ArticleDetailSerializer(article, data=request.data, partial=True)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data)
     return Response({'detail': '권한이 없습니다.'})
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def create_comment(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+    if request.method == 'POST':
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(article=article, user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['DELETE'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def comment_delete(request, comment_id):
+    comment = get_object_or_404(ArticleComment, pk=comment_id)
+    if request.method == 'DELETE':
+        if request.user.articlecomment_set.filter(pk=comment_id).exists():
+            comment.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'detail': '권한이 없습니다.'})
