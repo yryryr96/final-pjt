@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from api.models import Genre
 # Create your models here.
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -38,6 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     followings = models.ManyToManyField('self',symmetrical=False,related_name='followers', blank=True)
+    like_genres = models.ManyToManyField(Genre)
 
     objects = UserManager()
 
