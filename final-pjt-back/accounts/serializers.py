@@ -30,7 +30,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
         return user
     
+
+class UserOnlyIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'login_id',)
+
+
 class UserSerializer(serializers.ModelSerializer):
+    followers_count = serializers.IntegerField(source='followers.count', read_only=True)
     class Meta:
         model = User
         fields = '__all__'

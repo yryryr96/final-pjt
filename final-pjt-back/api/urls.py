@@ -17,6 +17,10 @@ urlpatterns = [
     path('articles/', views.article_list, name='article_list'), # get - 게시글 전체 조회 / post - 게시글 생성
     path('articles/<int:article_id>/', views.article_detail, name='article_detail'), # get - 게시글 상세 조회 / delete - 게시글 삭제 / put - 게시글 수정
     # 댓글
-    path('articles/<int:article_id>/comments/', views.create_comment, name='create_comment'),
-    path('comments/<int:comment_id>/', views.comment_delete, name='comment_delete'),
+    path('articles/<int:article_id>/comments/', views.create_comment, name='create_comment'), # post - 게시글 댓글 생성
+    path('comments/<int:comment_id>/', views.comment_delete, name='comment_delete'), # delete - 게시글 댓글 삭제
+    # 좋아요
+    path('<int:movie_id>/like/', views.movie_detail_like, name='movie_detail_like'),
+    path('review/<int:review_id>/like/', views.review_detail_like, name='review_detail_like'),
+    path('articles/<int:article_id>/like/', views.article_datail_like, name='article_datail_like'),
 ]
