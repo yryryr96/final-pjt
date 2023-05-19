@@ -3,9 +3,20 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 class RegisterSerializer(serializers.ModelSerializer):
+    confirmpassword = serializers.CharField(write_only=True)
+    
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('login_id','username','password','confirmpassword')
+
+    def validate(self,attrs):
+        password = attrs.get('password')
+        confirmpassword = attrs.get('confirmpassword')
+        
+        if password != confirmpassword :
+            raise serializers.ValidationError("password don't match.")
+        
+        return attrs
 
     def create(self, validated_data):
         login_id = validated_data.get('login_id')

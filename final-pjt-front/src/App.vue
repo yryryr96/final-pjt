@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link :to="{name : 'home'}">Home</router-link> |
+      <router-link :to="{name : 'ArticleView'}">자유게시판</router-link> |
+      <router-link :to="{name : 'SignUpView'}">회원가입</router-link>
     </nav>
     <router-view/>
   </div>
