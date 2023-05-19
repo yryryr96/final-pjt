@@ -22,22 +22,19 @@ export default {
         ArticleListItem
     },
     methods : {
-        setToken(){
-            const token = localStorage.getItem('token')
-            const config = {
-                headers : {
-                    Authorization : `Bearer ${token}`
-                }
-            }
-            return config
-        },
         getArticles(){
-            const config = this.setToken()
-            console.log(config)
-            axios.get(`${SERVER_URL}/movies/articles/`,config)
+            axios({
+                method : 'get',
+                url :`${SERVER_URL}/movies/articles/`,
+                headers :{
+                    Authorization : `Bearer ${this.$store.state.token}`
+                }
+            })
             .then((res)=>{
                 console.log(res)
+                console.log('TT')
                 this.items = res.data
+                
             })
             .catch((err)=>{
                 console.log(err)

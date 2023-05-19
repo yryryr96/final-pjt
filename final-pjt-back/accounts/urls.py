@@ -10,4 +10,5 @@ urlpatterns = [
     path('auth/refresh/', TokenRefreshView.as_view()),
     path('profile/<int:user_pk>/', views.profile, name='profile'), # get - 유저 프로필 조회
     path('<int:user_pk>/follow/', views.follow, name='follow'), # post - 유저 팔로우
+    path('userinfo/',views.userinfo)
 ]

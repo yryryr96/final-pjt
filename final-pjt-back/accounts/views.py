@@ -98,3 +98,10 @@ def follow(request, user_pk):
     else:
         person.followers.add(request.user)
         return Response({'detail': '팔로우 완료'})
+
+
+@api_view(['GET'])
+def userinfo(request):
+    users = get_user_model().objects.all()
+    serializer = UserSerializer(users,many=True)
+    return Response(serializer.data)
