@@ -72,6 +72,11 @@ export default {
       })
     },
   },
+  created(){
+    // if(this.$store.state.token==null){
+    //     alert('로그인이 필요합니다.')
+    // }
+  }
 }
 </script>
 

@@ -20,12 +20,13 @@ export default {
       item : Object
     },
     methods : {
+      
       getArticle(){
         axios({
           method : 'get',
           url : `${SERVER_URL}/movies/articles/${this.item.id}`,
           headers : {
-            Authorization : `Bearer ${this.$store.state}`
+            Authorization : `Bearer ${this.$store.state.token}`
           }
         })
         .then((res)=>{
