@@ -1,15 +1,12 @@
 <template>
-  <v-container>
-    <v-main>
+  <div>
     <h1>ArticleView</h1>
     <ArticleList/>
-      <router-view/>
-    </v-main>
-  </v-container>
+  </div>
 </template>
 
 <script>
-import ArticleList from '@/components/ArticleList.vue'
+import ArticleList from '@/components/articles/ArticleList.vue'
 export default {
   name: 'ArticleView',
   components : {

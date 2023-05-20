@@ -97,7 +97,7 @@ export default {
     getUser() {
       axios({
         method: 'get',
-        url: `${process.env.VUE_APP_SERVER_URL}/accounts/userinfo/`
+        url: `${this.$store.state.VUE_APP_SERVER_URL}/accounts/userinfo/`
       })
       .then((res) => {
         this.$store.dispatch('getUsers', res.data)
@@ -119,8 +119,13 @@ export default {
     },
   },
   created() {
+    console.log('App created')
+    console.log('setToken APP created')
     this.$store.dispatch('setToken')
+    console.log('getMovies APP created')
     this.$store.dispatch('getMovies')
+    console.log('getArticles APP created')
+    this.$store.dispatch('getArticles')
     // 필요한 경우 getUser() 메소드 호출
     this.getUser()
   }

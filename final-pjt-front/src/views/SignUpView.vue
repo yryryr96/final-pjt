@@ -59,7 +59,7 @@ export default {
     signup() {
       axios({
         method: 'post',
-        url: `${process.env.VUE_APP_SERVER_URL}/accounts/register/`,
+        url: `${this.$store.state.VUE_APP_SERVER_URL}/accounts/register/`,
         data: this.userinfo
       }).then((res) => {
         console.log(res)
@@ -67,7 +67,9 @@ export default {
         localStorage.setItem('token', token)
         this.$router.push('ArticleView')
       }).catch((err) => {
+        console.log('signUpError')
         console.log(err)
+        console.log(this.$store.state.VUE_APP_SERVER_URL)
       })
     },
   },

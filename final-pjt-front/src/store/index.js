@@ -11,7 +11,9 @@ export default new Vuex.Store({
   state: {
     users : [],
     movies : [],
+    articles : [],
     token : null,
+    VUE_APP_SERVER_URL : 'http://127.0.0.1:8000',
   },
   getters: {
   },
@@ -24,6 +26,9 @@ export default new Vuex.Store({
     },
     GET_MOVIES(state,movies){
       state.movies = movies
+    },
+    GET_ARTICLES(state,articles){
+      state.articles = articles
     }
   },
   actions: {
@@ -36,9 +41,11 @@ export default new Vuex.Store({
     }, 
     getMovies(context) {
       const token = localStorage.getItem('token')
+      console.log('getMovies token')
+      console.log(token)
       axios({
           method :'get',
-          url : `${process.env.VUE_APP_SERVER_URL}/movies`,
+          url : `${this.state.VUE_APP_SERVER_URL}/movies/`,
           headers : {
               Authorization : `Bearer ${token}`
           }
@@ -50,6 +57,24 @@ export default new Vuex.Store({
           context.commit('GET_MOVIES',movies)
           console.log('good')
           // this.movies = res.data
+      }).catch((err)=>{
+        console.log('getMovies error')
+      })
+    },
+    getArticles(context) {
+      const token = localStorage.getItem('token')
+      axios({
+        method: 'get',
+        url : `${this.state.VUE_APP_SERVER_URL}/movies/articles/`,
+        headers: {
+          Authorization : `Bearer ${token}`
+        }
+      })
+      .then((res) => {
+        const articles = res.data
+        console.log(res.data)
+        context.commit('GET_ARTICLES', articles)
+        console.log('getArticles actions')
       })
     }
   },
