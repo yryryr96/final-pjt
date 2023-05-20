@@ -10,7 +10,7 @@
 <script>
 import axios from 'axios'
 import ArticleListItem from '@/components/ArticleListItem.vue'
-const SERVER_URL = 'http://127.0.0.1:8000'
+
 export default {
     name : 'ArticleList',
     data(){
@@ -25,14 +25,13 @@ export default {
         getArticles(){
             axios({
                 method : 'get',
-                url :`${SERVER_URL}/movies/articles/`,
+                url :`${process.env.VUE_APP_SERVER_URL}/movies/articles/`,
                 headers :{
                     Authorization : `Bearer ${this.$store.state.token}`
                 }
             })
             .then((res)=>{
                 console.log(res)
-                console.log('TT')
                 this.items = res.data
                 
             })

@@ -91,21 +91,27 @@ def movie_detail(request, movie_id):
 
         request_url = f'https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={TMDB_API_KEY}&language=ko-KR'
         movie = requests.get(request_url).json()
+        # print(movie['cast'])
         actors = []
         directors = []
         for person in movie['cast']:
             if person['known_for_department'] == 'Acting':
                 actors.append([person['name'], person['popularity']])
-            elif person['known_for_department'] == 'Directing':
+        for person in movie['crew'] :
+            if person['known_for_department'] == 'Directing':
                 directors.append([person['name'], person['popularity']])
+            # print(person)
+        
         actors.sort(key = lambda x : -x[1])
         directors.sort(key = lambda x : -x[1])
-
-        setattr(moviedetail, 'actors', actors[:4])
-        setattr(moviedetail, 'directors', directors[0])
+        Ac = []
+        for i in range(4):
+            Ac.append(actors[i][0])
+        setattr(moviedetail, 'actors', Ac)
+        setattr(moviedetail, 'directors', directors[0][0])
 
         serializer = MovieDetailSerializer(moviedetail)
-
+        # print(serializer.data)
         return Response(serializer.data)
     
 
@@ -135,14 +141,14 @@ def review_detail(request, review_id):
     if request.user.moviereview_set.filter(pk=review_id).exists():
         if request.method == 'DELETE':
             review.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response({'삭제 완료'},status=status.HTTP_204_NO_CONTENT)
         
         elif request.method == 'PUT':
             serializer = MovieReviewSerializer(review, data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data)
-    return Response({'detail': '권한이 없습니다.'})
+    return Response(None)
 
 
 @api_view(['POST', 'GET'])

@@ -8,7 +8,6 @@
 
 <script>
 import axios from 'axios'
-const SERVER_URL = 'http://127.0.0.1:8000'
 export default {
     name : 'ArticleListItem',
     data(){
@@ -24,7 +23,7 @@ export default {
       getArticle(){
         axios({
           method : 'get',
-          url : `${SERVER_URL}/movies/articles/${this.item.id}`,
+          url : `${process.env.VUE_APP_SERVER_URL}/movies/articles/${this.item.id}`,
           headers : {
             Authorization : `Bearer ${this.$store.state.token}`
           }

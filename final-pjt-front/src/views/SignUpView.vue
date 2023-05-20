@@ -42,7 +42,6 @@
 
 <script>
 import axios from 'axios'
-const SERVER_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'SignUpView',
@@ -60,7 +59,7 @@ export default {
     signup() {
       axios({
         method: 'post',
-        url: `${SERVER_URL}/accounts/register/`,
+        url: `${process.env.VUE_APP_SERVER_URL}/accounts/register/`,
         data: this.userinfo
       }).then((res) => {
         console.log(res)

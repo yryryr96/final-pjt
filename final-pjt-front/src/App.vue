@@ -76,8 +76,6 @@
 <script>
 import axios from 'axios'
 
-const SERVER_URL = 'http://127.0.0.1:8000'
-
 export default {
   name: 'App',
   data() {
@@ -99,7 +97,7 @@ export default {
     getUser() {
       axios({
         method: 'get',
-        url: `${SERVER_URL}/accounts/userinfo/`
+        url: `${process.env.VUE_APP_SERVER_URL}/accounts/userinfo/`
       })
       .then((res) => {
         this.$store.dispatch('getUsers', res.data)

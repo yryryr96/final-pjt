@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import axios from'axios'
 import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
-const SERVER_URL = 'http://127.0.0.1:8000'
 
 export default new Vuex.Store({
   plugins:[
@@ -39,13 +38,13 @@ export default new Vuex.Store({
       const token = localStorage.getItem('token')
       axios({
           method :'get',
-          url : `${SERVER_URL}/movies`,
+          url : `${process.env.VUE_APP_SERVER_URL}/movies`,
           headers : {
               Authorization : `Bearer ${token}`
           }
       }).then((res)=>{
           const movies = []
-          for(let i=0;i<10;i++){
+          for(let i=0;i<20;i++){
             movies.push(res.data[i])
           }
           context.commit('GET_MOVIES',movies)

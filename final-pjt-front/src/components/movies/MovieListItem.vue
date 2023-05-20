@@ -1,12 +1,11 @@
 <template>
   <div @click="GoDetail">
     <p> {{movie.title}} </p>
-    <img :src="getImageUrl(movie.poster_path)" class="moviePoster" style="margin-bottom:30px;">
+    <img :src="getImageUrl(movie.poster_path)" class="moviePoster movie-item" style="margin-bottom:30px;">
   </div>
 </template>
 
 <script>
-
 export default {
     name : 'MovieListItem',
     props : {
@@ -26,5 +25,7 @@ export default {
 </script>
 
 <style>
-
+.movie-item {
+    cursor : pointer;
+}
 </style>
