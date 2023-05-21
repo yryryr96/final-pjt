@@ -133,12 +133,16 @@ def create_review(request, movie_id):
         return Response(serializer.data)
     
 
-@api_view(['DELETE', 'PUT'])
+@api_view(['GET','DELETE', 'PUT'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def review_detail(request, review_id):
     review = get_object_or_404(MovieReview, pk=review_id)
-    if request.user.moviereview_set.filter(pk=review_id).exists():
+    if request.method == 'GET' :
+        serializer = MovieReviewSerializer(review)
+        return Response(serializer.data)
+    
+    elif request.user.moviereview_set.filter(pk=review_id).exists():        
         if request.method == 'DELETE':
             review.delete()
             return Response({'삭제 완료'},status=status.HTTP_204_NO_CONTENT)

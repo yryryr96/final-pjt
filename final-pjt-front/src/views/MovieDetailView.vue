@@ -7,7 +7,7 @@
         <v-img :src="getImageUrl(movie.poster_path)" class="moviePoster"></v-img>
       </v-col>
       <v-col cols="12" sm="6" md="8" lg="9" class="infoColumn">
-        <p class="title">{{ movie?.title }}</p>
+        <p class="movietitle">{{ movie?.title }}</p>
         <p class="small">{{ movie?.actors }}</p>
         <p class="small">{{ movie?.directors }}</p>
         <p>{{ movie?.overview }}</p>
@@ -71,6 +71,10 @@ export default {
 
 .moviePoster {
   margin-right: 20px;
+}
+.movietitle {
+  font-size:30px;
+  font-weight : bold;
 }
 
 </style>

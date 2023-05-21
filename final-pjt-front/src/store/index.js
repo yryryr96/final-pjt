@@ -11,6 +11,7 @@ export default new Vuex.Store({
   state: {
     users : [],
     movies : [],
+    user : null,
     token : null,
   },
   getters: {
@@ -24,9 +25,15 @@ export default new Vuex.Store({
     },
     GET_MOVIES(state,movies){
       state.movies = movies
+    },
+    GET_ME(state,Me){
+      state.user = Me
     }
   },
   actions: {
+    getMe(context,Me){
+      context.commit('GET_ME',Me)
+    },
     getUsers(context,users) {
       context.commit('GET_USERS',users)
     },

@@ -1,11 +1,20 @@
 <template>
   <div>
     <h3>MovieReview</h3>
+    <hr>
     <MovieReviewItem
-      v-for="review in reviews"
+      v-for="review in displayedReviews"
       :key="review.id"
       :review="review"
       :movie_id="movie_id"
+    />
+
+    <v-pagination
+      v-model="currentPage"
+      :total-visible="5" 
+      :length="totalPages" 
+      :disabled="loading" 
+      @input="fetchReviews" 
     />
 
     <v-form @submit.prevent="addReview">
@@ -20,6 +29,7 @@
               required
               class="review-input"
               dense
+              ref="reviewInput"
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="4">
@@ -40,7 +50,12 @@ export default {
   data() {
     return {
       reviews: [],
-      newReviewContent: '',
+      displayedReviews: [],
+      newReviewContent : '',
+      currentPage: 1,
+      itemsPerPage: 4,
+      loading: false,
+      totalReviews: 0,
     };
   },
   components: {
@@ -48,41 +63,55 @@ export default {
   },
   methods: {
     getReviews() {
-        axios({
-            method : 'get',
-            url : `${process.env.VUE_APP_SERVER_URL}/movies/${this.movie_id}/review/`,
-            headers : {
-                Authorization : `Bearer ${this.$store.state.token}`
-            }
-        }).then((res)=>{
-            console.log('review')
-            console.log(res)
-            this.reviews = res.data
-        }).catch((err)=>{
-            console.log(err)
-        })
+      axios({
+        method: 'get',
+        url: `${process.env.VUE_APP_SERVER_URL}/movies/${this.movie_id}/review/`,
+        headers: {
+          Authorization: `Bearer ${this.$store.state.token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        this.reviews = res.data;
+        this.totalReviews = this.reviews.length;
+        this.fetchReviews();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    },
+    fetchReviews() {
+      this.loading = true;
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      this.displayedReviews = this.reviews.slice(startIndex, endIndex);
+      this.loading = false;
     },
     addReview() {
-        axios({
-            method: 'post',
-            url: `${process.env.VUE_APP_SERVER_URL}/movies/${this.movie_id}/review/`,
-            headers: {
-                Authorization: `Bearer ${this.$store.state.token}`,
-            },
-            data: {
-                content: this.newReviewContent,
-            },
-        })
-        .then((res) => {
-          console.log('Review added');
-          // 새로운 리뷰를 화면에 추가
-          this.reviews.push(res.data);
-          // 입력 창 초기화
-          this.newReviewContent = '';
-        })
-        .catch((err) => {
-          console.log(err);
+      axios({
+        method: 'post',
+        url: `${process.env.VUE_APP_SERVER_URL}/movies/${this.movie_id}/review/`,
+        headers: {
+          Authorization: `Bearer ${this.$store.state.token}`,
+        },
+        data: {
+          content: this.newReviewContent,
+        },
+      })
+      .then((res) => {
+        this.reviews.push(res.data);
+        this.totalReviews = this.reviews.length;
+        this.currentPage = Math.ceil(this.totalReviews / this.itemsPerPage);
+        this.fetchReviews();
+        this.newReviewContent = '';
+        this.$nextTick(() => {
+        // 다음 렌더링 사이클까지 기다린 후에 입력 필드를 업데이트
+          this.$refs.reviewInput.reset(); // 입력 필드의 내용을 리셋
         });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     },
   },
   props: {
@@ -91,15 +120,29 @@ export default {
   created() {
     this.getReviews();
   },
+  watch: {
+    reviews: {
+      handler() {
+        this.totalReviews = this.reviews.length;
+        this.fetchReviews();
+      },
+      deep: true,
+    },
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.totalReviews / this.itemsPerPage);
+    },
+  },
 };
 </script>
 
 <style scoped>
 .review-input .v-input__control {
-  height: 40px; /* 원하는 높이로 설정 */
+  height: 40px;
 }
 
 .review-button {
-  height: 40px; /* 원하는 높이로 설정 */
+  height: 40px;
 }
 </style>

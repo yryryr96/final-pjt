@@ -106,6 +106,17 @@ export default {
         console.log(err)
       })
     },
+    getMe(){
+      axios({
+          method : 'get',
+          url : `${process.env.VUE_APP_SERVER_URL}/accounts/getuser`,
+          headers : {
+              Authorization : `Bearer ${this.$store.state.token}`
+          }
+      }).then((res)=>{
+          this.$store.dispatch('getMe',res.data)
+      })
+    },
     logout() {
       // 로그아웃 로직 구현
       // 로그아웃 후 필요한 처리를 구현하세요.
@@ -123,6 +134,8 @@ export default {
     this.$store.dispatch('getMovies')
     // 필요한 경우 getUser() 메소드 호출
     this.getUser()
+    this.getMe()
+    
   }
 }
 </script>

@@ -104,3 +104,12 @@ def userinfo(request):
     users = get_user_model().objects.all()
     serializer = UserSerializer(users,many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def getuser(request):
+    user = request.user
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
