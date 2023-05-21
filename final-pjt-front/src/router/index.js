@@ -5,6 +5,7 @@ import ArticleView from '@/views/ArticleView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import MovieView from '@/views/MovieView.vue'
 import MovieDetailView from '@/views/MovieDetailView.vue'
+import LoginView from '@/views/LoginView.vue'
 
 Vue.use(VueRouter)
 
@@ -20,7 +21,7 @@ const routes = [
     component : ArticleView
   },
   {
-    path : '/signup',
+    path : '/',
     name : 'SignUpView',
     component : SignUpView
   },
@@ -33,6 +34,11 @@ const routes = [
     path : '/detail/:movie_id',
     name : 'MovieDetailView',
     component : MovieDetailView
+  },
+  {
+    path: '/login',
+    name : 'LoginView',
+    component : LoginView
   }
 ]
 
@@ -40,6 +46,14 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to,from,next) => {
+  if (to.name === from.name){
+    next(false)
+  } else{
+    next()
+  }
 })
 
 export default router

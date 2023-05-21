@@ -8,7 +8,7 @@
       </v-col>
       <v-col cols="2" class="d-flex justify-end align-center">
         <v-btn
-          v-if="!review.like_users.includes($store.state.user.id)"
+          v-if="!review.like_users.includes(this.$store.state.user.id)"
           color="primary"
           icon
           @click="likeReview"
