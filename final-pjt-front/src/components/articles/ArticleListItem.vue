@@ -1,7 +1,8 @@
 <template>
-  <div @click="GoDetail">
+  <div>
     <p>{{article.title}}</p>
-    <p>작성자 : {{ username }}</p>
+    <p>작성자 : <router-link :to="{name: 'ProfileView', params: {username: username}}">{{ username }}</router-link></p>
+    <button @click="GoDetail">[Detail]</button>
     <hr>
   </div>
 </template>

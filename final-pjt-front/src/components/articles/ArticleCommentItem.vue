@@ -2,10 +2,14 @@
   <div>
     <p>ArticleCommentItem</p>
     <p>{{ comment.content }} - {{ username }}</p>
+    <button @click="deleteComment">[Delete]</button>
+    <hr>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'ArticleCommentItem',
     props: {
@@ -16,6 +20,33 @@ export default {
         return {
             username: null,
         }
+    },
+    methods: {
+        deleteComment() {
+            axios({
+                method: 'delete',
+                url: `http://127.0.0.1:8000/movies/comments/${this.comment.id}/`,
+                headers: {
+                    Authorization: `Bearer ${this.$store.state.token}`
+                }
+            })
+            .then((res) => {
+                console.log(res.data)
+                if(res.status === 200){
+                    alert('권한이 없습니다.')
+                }
+                else if(res.status === 204){
+                    const index = this.$parent.comments.indexOf(this.comment);
+                    if (index !== -1) {
+                        this.$parent.comments.splice(index, 1)
+                    }
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                alert('권한이 없습니다.')
+            })
+        },
     },
     created(){
         for (const user of this.$store.state.users) {

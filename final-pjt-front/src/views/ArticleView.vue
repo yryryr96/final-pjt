@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>ArticleView</h1>
+    <router-link :to="{name:'ArticleCreateView'}">[ArticleCreate]</router-link>
+    <hr>
     <ArticleList/>
   </div>
 </template>
@@ -24,6 +26,9 @@ export default {
       // 검색 로직을 구현하세요.
     },
   },
+  created() {
+    this.$store.dispatch('getArticles')
+  }
 }
 </script>
 <style>

@@ -43,7 +43,7 @@ export default {
             axios({
                 method : 'get',
                 // url : `https://api.themoviedb.org/3/movie/${this.$route.params.movie_id}?language=ko-KR&api_key=${process.env.VUE_APP_API_KEY}`,
-                url : `${process.env.VUE_APP_SERVER_URL}/movies/${this.$route.params.movie_id}/`,
+                url : `${this.$store.state.VUE_APP_SERVER_URL}/movies/${this.$route.params.movie_id}/`,
                 headers : {
                     Authorization : `Bearer ${this.$store.state.token}`
                 }
