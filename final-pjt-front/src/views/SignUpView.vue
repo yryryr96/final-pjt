@@ -57,6 +57,8 @@ export default {
   },
   methods: {
     signup() {
+      console.log('signup')
+      console.log(process.env.VUE_APP_SERVER_URL)
       axios({
         method: 'post',
         url: `${process.env.VUE_APP_SERVER_URL}/accounts/register/`,

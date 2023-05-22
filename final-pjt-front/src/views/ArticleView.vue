@@ -2,14 +2,15 @@
   <v-container>
     <v-main>
     <h1>ArticleView</h1>
+    <router-link :to="{name: 'ArticleCreateView'}">[Create Article]</router-link>
+    <hr>
     <ArticleList/>
-      <router-view/>
     </v-main>
   </v-container>
 </template>
 
 <script>
-import ArticleList from '@/components/ArticleList.vue'
+import ArticleList from '@/components/articles/ArticleList.vue'
 export default {
   name: 'ArticleView',
   components : {
@@ -27,6 +28,9 @@ export default {
       // 검색 로직을 구현하세요.
     },
   },
+  created() {
+    this.$store.dispatch('getArticles')
+  }
 }
 </script>
 <style>

@@ -6,6 +6,9 @@ import SignUpView from '@/views/SignUpView.vue'
 import MovieView from '@/views/MovieView.vue'
 import MovieDetailView from '@/views/MovieDetailView.vue'
 import LoginView from '@/views/LoginView.vue'
+import ArticleDetailView from '@/views/ArticleDetailView.vue'
+import ArticleCreateView from '@/views/ArticleCreateView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 
 Vue.use(VueRouter)
 
@@ -39,7 +42,22 @@ const routes = [
     path: '/login',
     name : 'LoginView',
     component : LoginView
-  }
+  },
+  {
+    path : '/articles/detail/:article_id',
+    name : 'ArticleDetailView',
+    component : ArticleDetailView
+  },
+  {
+    path : '/articles/create',
+    name : 'ArticleCreateView',
+    component : ArticleCreateView
+  },
+  {
+    path : '/profile/:username',
+    name : 'ProfileView',
+    component : ProfileView
+  },
 ]
 
 const router = new VueRouter({
