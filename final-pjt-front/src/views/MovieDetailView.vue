@@ -7,9 +7,28 @@
         <v-img :src="getImageUrl(movie.poster_path)" class="moviePoster"></v-img>
       </v-col>
       <v-col cols="12" sm="6" md="8" lg="9" class="infoColumn">
-        <p class="movietitle">{{ movie?.title }}</p>
-        <p class="small">{{ movie?.actors }}</p>
-        <p class="small">{{ movie?.directors }}</p>
+        <p class="movietitle">{{ movie?.title }}
+          <v-btn
+            v-if="!this.$store.state.user.like_movies.includes(movie?.id)"
+            color="primary"
+            icon
+            @click="likeMovie"
+          >
+            <v-icon>mdi-heart-outline</v-icon>
+          </v-btn>
+          <v-btn
+            v-else
+            color="primary"
+            icon
+            @click="likeMovie"
+          >
+            <v-icon>mdi-heart</v-icon>
+          </v-btn>
+        </p>
+          
+        <p class="small">출연 : {{ movie?.actors }}</p>
+        <p class="small">감독 : {{ movie?.directors }}</p>
+        <h4>Overview</h4>
         <p>{{ movie?.overview }}</p>
         <MovieReview :movie_id="parseInt($route.params.movie_id)" />
       </v-col>
@@ -48,13 +67,38 @@ export default {
                     Authorization : `Bearer ${this.$store.state.token}`
                 }
             }).then((res)=>{
+                console.log(this.$store.state.user)
                 console.log(res)
                 this.movie = res.data
+            })
+        },
+        likeMovie(){
+          axios({
+            method :'post',
+            url : `${process.env.VUE_APP_SERVER_URL}/movies/${this.movie.id}/like/`,
+            headers : {
+              Authorization : `Bearer ${this.$store.state.token}`
+            }
+          }).then((res)=>{
+              const likeMovies = this.$store.state.user.like_movies;
+              const movieIndex = likeMovies.indexOf(this.movie.id);
+              console.log(this.$store.state.user);
+              console.log(res)
+              if (movieIndex !== -1) {
+                // 이미 좋아하는 영화인 경우, 제거
+                likeMovies.splice(movieIndex, 1);
+              } else {
+                // 좋아하는 영화가 아닌 경우, 추가
+                likeMovies.push(this.movie.id);
+              }
+            }).catch((err)=>{
+              console.log(err)
             })
         } 
     },
     created(){
         this.getMovie()
+        
     }
 }
 </script>

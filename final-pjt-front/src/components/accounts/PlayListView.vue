@@ -39,6 +39,7 @@ export default {
             .then((res)=>{
                 console.log(res)
                 this.lists = res.data.like_movies
+                console.log(this.lists)
             })
             .catch((err)=>{
                 console.log(err)

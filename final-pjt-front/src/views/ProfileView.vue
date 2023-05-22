@@ -29,8 +29,10 @@ export default {
                     this.user = user
                 }
             }
+            console.log('that')
             console.log(this.user)
-        }
+        },
+        
     },
     created() {
         this.getUser()

@@ -2,6 +2,7 @@
   <div>
     <h5>PlayListItemView</h5>
     <p>{{ movie?.title }}</p>
+    <img :src="getImageUrl(movie.poster_path)" class="moviePoster movie-item" style="margin-bottom:30px;">
   </div>
 </template>
 
@@ -32,7 +33,11 @@ export default {
             }).catch((err)=>{
                 console.log(err)
             })
-        }
+        },
+        getImageUrl(posterPath){
+            const size = 'w300'
+            return `https://image.tmdb.org/t/p/${size}/${posterPath}`
+        },
     },
     created() {
         this.getMovie()
