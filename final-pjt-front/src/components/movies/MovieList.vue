@@ -1,33 +1,53 @@
 <template>
   <div>
-    <h1>MovieList</h1>
-    <MovieListItem
-    v-for="movie in movies" :key="movie.id" :movie="movie"
-    />
+    <v-carousel
+      hide-delimiters
+      show-arrows>
+      <v-carousel-item
+        v-for="(group, index) in groupedMovies"
+        :key="index"
+      >
+        <div class="movie-group">
+          <movie-list-item
+            v-for="movie in group"
+            :key="movie.id"
+            :movie="movie"
+          />
+        </div>
+      </v-carousel-item>
+    </v-carousel>
   </div>
 </template>
 
 <script>
-import MovieListItem from '@/components/movies/MovieListItem'
-import axios from 'axios'
+import MovieListItem from '@/components/movies/MovieListItem.vue';
 
 export default {
-    name : 'MovieList',
-    data(){
-        return{
-            movies : this.$store.state.movies
-        }
+  name: 'MovieList',
+  components: {
+    MovieListItem,
+  },
+  data() {
+    return {
+      movies: this.$store.state.movies,
+    };
+  },
+  computed: {
+    groupedMovies() {
+      const groupSize = 5;
+      const groups = [];
+      for (let i = 0; i < this.movies.length; i += groupSize) {
+        groups.push(this.movies.slice(i, i + groupSize));
+      }
+      return groups;
     },
-    components : {
-        MovieListItem
-    },
-    methods : {
-       
-    },
-    
-} 
+  },
+};
 </script>
 
-<style>
-
+<style scoped>
+.movie-group {
+  display: flex;
+  justify-content: space-between;
+}
 </style>
