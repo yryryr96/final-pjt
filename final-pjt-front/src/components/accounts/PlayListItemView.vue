@@ -2,7 +2,7 @@
   <div>
     <h5>PlayListItemView</h5>
     <p>{{ movie?.title }}</p>
-    <img :src="getImageUrl(movie.poster_path)" class="moviePoster movie-item" style="margin-bottom:30px;">
+    <img :src="getImageUrl(movie?.poster_path)" class="moviePoster movie-item" style="margin-bottom:30px;">
   </div>
 </template>
 

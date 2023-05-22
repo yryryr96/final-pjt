@@ -3,6 +3,28 @@
     <h1>{{user.username}}'s Profile</h1>
     <p>팔로잉 : {{ user.followings.length }}</p>
     <p>팔로워 : {{ user.followers_count }}</p>
+    <FollowingListView :userId="user?.id" />
+    
+    <div class="text-center">
+    <v-btn
+      color="primary"
+      @click="dialog = true"
+    >
+      팔로잉 목록보기
+    </v-btn>
+    <v-dialog
+      v-model="dialog"
+      width="auto"
+    >
+      <v-card>
+        <FollowingListView :userId="user?.id" />
+        <v-card-actions>
+          <v-btn color="primary" block @click="dialog = false">목록 닫기</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    </div>
+
     <button @click="follow">[Follow]</button>
     <hr>
     <!-- <h3>{{this.$route.params.username}}'s MoviePlaylist</h3> -->
@@ -13,15 +35,18 @@
 <script>
 import axios from 'axios'
 import PlayListView from '@/components/accounts/PlayListView.vue'
+import FollowingListView from '@/components/accounts/FollowingListView.vue'
 
 export default {
     name: 'ProfileView',
     components: {
         PlayListView,
+        FollowingListView
     },
     data() {
         return {
             user: [],
+            dialog: false,
         }
     },
     methods: {
