@@ -1,15 +1,22 @@
 <template>
-  <hello-world />
+  <div>
+    <TopRateMovieList/>
+    <PopularMovieList/>
+  </div>
+  
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
-
+import TopRateMovieList from '@/components/movies/TopRateMovieList'
+import PopularMovieList from '@/components/movies/PopularMovieList'
   export default {
     name: 'Home',
 
     components: {
-      HelloWorld,
+      TopRateMovieList,
+      PopularMovieList
     },
+    
   }
+  
 </script>

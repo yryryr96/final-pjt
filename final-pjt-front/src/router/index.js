@@ -25,7 +25,7 @@ const routes = [
     component : ArticleView
   },
   {
-    path : '/',
+    path : '/signup',
     name : 'SignUpView',
     component : SignUpView
   },
@@ -40,7 +40,7 @@ const routes = [
     component : MovieDetailView
   },
   {
-    path: '/login',
+    path: '/',
     name : 'LoginView',
     component : LoginView
   },

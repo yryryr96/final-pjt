@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>{{username}}'s PlayListView</h4>
+    <h1>{{username}}'s PlayList</h1>
     <PlayListItemView
     v-for="list in lists"
     :key="list.id"
@@ -20,7 +20,7 @@ export default {
     },
     data() {
         return {
-            lists: [],
+            lists: null,
         }
     },
     props: {
@@ -36,8 +36,7 @@ export default {
                     Authorization : `Bearer ${this.$store.state.token}`
                 }
             })
-            .then((res)=>{
-                console.log(res)
+            .then((res)=>{                
                 this.lists = res.data.like_movies
                 console.log(this.lists)
             })

@@ -77,7 +77,7 @@
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text color="primary">Search</v-btn>
+          <v-btn text color="primary" @click='Search'>Search</v-btn>
           <v-btn text color="primary" @click="closeSearchDialog">Close</v-btn>
         </v-card-actions>
       </v-card>
@@ -98,6 +98,21 @@ export default {
     }
   },
   methods: {
+    Search(){
+      axios({
+        method : 'get',
+        url : `${process.env.VUE_APP_SERVER_URL}/movies/search/?q=${this.searchText}`,
+        headers : {
+          Authorization : `Bearer ${this.$store.state.token}`
+        }
+      }).then((res)=>{
+        console.log(res)
+        this.showSearchDialog = false
+        this.searchText = ''
+      }).catch((err)=>{
+        console.log(err)
+      })
+    },
     logout(){
       axios({
         method : 'delete',
@@ -150,5 +165,5 @@ export default {
 </script>
 
 <style>
-/* 스타일 */
+
 </style>

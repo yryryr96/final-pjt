@@ -91,7 +91,7 @@ def profile(request, user_pk):
 @permission_classes([IsAuthenticated])
 def follow(request, user_pk):
     person = get_user_model().objects.get(pk=user_pk)
-    if request.user != pesrson :
+    if request.user != person :
         if request.user in person.followers.all():
             person.followers.remove(request.user)
             return Response({'detail': '팔로우 취소'})

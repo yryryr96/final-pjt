@@ -14,10 +14,20 @@ export default new Vuex.Store({
     articles : [],
     user : null,
     token : null,
+    top_rated_movies : null,
+    popular_movies : null
   },
   getters: {
+    getTopRatedMovies : state => state.top_rated_movies,
+    getPopularMovies : state => state.popular_movies,
   },
   mutations: {
+    SET_POPULAR_MOVIE(state,movies){
+      state.popular_movies = movies
+    },
+    SET_TOP_RATED_MOVIE(state,movies){
+      state.top_rated_movies = movies
+    },
     GET_USERS(state,users){
       state.users = users
     },
@@ -82,6 +92,56 @@ export default new Vuex.Store({
       .catch((err) => {
         console.log(err)
       })
+    },
+    getTopRatedMovies(context) {
+      const top_rated_movies = [];
+    
+      const requests = [];
+      for (let i = 1; i <= 2; i++) {
+        const request = axios({
+          method: 'get',
+          url: `https://api.themoviedb.org/3/movie/top_rated?language=ko-KR&page=${i}&api_key=${process.env.VUE_APP_API_KEY}`
+        });
+    
+        requests.push(request);
+      }
+    
+      axios.all(requests)
+        .then(axios.spread((...responses) => {
+          responses.forEach((response) => {
+            top_rated_movies.push(...response.data.results);
+          });
+    
+          context.commit('SET_TOP_RATED_MOVIE', top_rated_movies);
+        }))
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getPopularMovies(context) {
+      const popular_movies = [];
+    
+      const requests = [];
+      for (let i = 1; i <= 2; i++) {
+        const request = axios({
+          method: 'get',
+          url: `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page=${i}&sort_by=popularity.desc&api_key=${process.env.VUE_APP_API_KEY}`
+        });
+    
+        requests.push(request);
+      }
+    
+      axios.all(requests)
+        .then(axios.spread((...responses) => {
+          responses.forEach((response) => {
+            popular_movies.push(...response.data.results);
+          });
+    
+          context.commit('SET_POPULAR_MOVIE', popular_movies);
+        }))
+        .catch((error) => {
+          console.log(error);
+        });
     }
   },
   modules: {

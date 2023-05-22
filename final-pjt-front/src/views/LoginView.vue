@@ -21,6 +21,7 @@
               ></v-text-field>
               
               <v-btn type="submit" color="yellow darken-2" class="mt-4">Login</v-btn>
+              <v-btn type="submit" color="yellow darken-2" class="mt-4" @click="gosignup">sign up</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -42,6 +43,9 @@ export default {
         }
     },
     methods : {
+      gosignup(){
+        this.$router.push({name:'SignUpView'})
+      },
         // setUser(){
         //     axios({
         //         method : 'get',

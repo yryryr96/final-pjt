@@ -10,6 +10,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 
 TMDB_API_KEY = '386ea6e619bc3b5721f33392e34505c2'
 
@@ -259,3 +260,19 @@ def article_datail_like(request, article_id):
         else:
             article.like_users.add(request.user)
             return Response({'detail': '좋아요 완료'})
+        
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def search_movies(request):
+    keyword = request.GET.get('q', '')  # 검색 키워드를 가져옴
+    
+    movies = Movie.objects.filter(
+        Q(title__icontains=keyword)  # 영화 제목에 키워드가 포함되는 경우
+    )
+    
+    # 필요한 데이터를 직렬화하여 응답
+    serializer = MovieSerializer(movies, many=True)
+    return Response(serializer.data)
