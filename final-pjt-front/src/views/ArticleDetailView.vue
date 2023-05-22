@@ -5,13 +5,14 @@
         <p>작성자 : {{ username }}</p>
         <p>제목 : {{ article?.title }}</p>
         <p>내용 : {{ article?.content }}</p>
+        <p>작성시간 : {{ article?.created_at }}</p>
+        <p>수정시간 : {{ article?.updated_at }}</p>
         <hr>
         <br>
         <button @click="likeArticle">[Like]</button>
         <p>좋아요 수 : {{ article?.like_users_count }}</p>
-        <hr>
-        <p>작성시간 : {{ article?.created_at }}</p>
-        <p>수정시간 : {{ article?.updated_at }}</p>
+        <router-link :to="{name: 'ArticleUpdateView', params: {article_id: article?.id}}">[Update]</router-link>
+        <br><button @click="deleteArticle">[Delete]</button>
         <hr>
         <br>
         <ArticleComment :article_id="parseInt($route.params.article_id)"/>
@@ -73,6 +74,25 @@ export default {
                 console.log(res)
                 this.article.like_users = res.data.like_users
                 this.article.like_users_count = res.data.like_users_count
+            }).catch((err)=>{
+                console.log(err)
+            })
+        },
+        deleteArticle(){
+            axios({
+                method: 'delete',
+                url : `${process.env.VUE_APP_SERVER_URL}/movies/articles/${this.article.id}`,
+                headers : {
+                    Authorization : `Bearer ${this.$store.state.token}`
+                }
+            }).then((res)=>{
+                console.log(res)
+                if(res.status === 200){
+                    alert('권한이 없습니다.')
+                }
+                else if(res.status === 204){
+                    this.$router.push({name:'ArticleView'})
+                }
             }).catch((err)=>{
                 console.log(err)
             })

@@ -7,6 +7,17 @@
       :comment="comment"
       :article_id="article_id"
     />
+    <h3>Create ArticleComment</h3>
+    <v-form @submit.prevent="addComment">
+        <v-text-field
+        v-model="newCommentContent"
+        outlined
+        placeholder="댓글 내용을 입력하세요"
+        required
+        dense
+        ></v-text-field>
+        <v-btn @click="addComment">등록</v-btn>
+    </v-form>
   </div>
 </template>
 
@@ -40,6 +51,25 @@ export default {
         }).catch((err)=>{
             console.log(err)
         })
+    },
+    addComment() {
+        axios({
+            method: 'post',
+            url: `${process.env.VUE_APP_SERVER_URL}/movies/articles/${this.article_id}/comments/`,
+            headers: {
+                Authorization: `Bearer ${this.$store.state.token}`,
+            },
+            data: {
+                content: this.newCommentContent,
+            },
+        })
+        .then((res) => {
+            this.comments.push(res.data);
+            this.newCommentContent = '';
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     },
   },
   props: {

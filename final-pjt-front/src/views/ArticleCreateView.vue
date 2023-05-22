@@ -50,6 +50,7 @@ export default {
         .then((res) => {
           console.log('Article added');
           // @@@@@@@@@@새로고침 해야만 되네 어케 고치노
+          this.$store.dispatch('getArticles')
           this.$router.push({name: 'ArticleView'})
         })
         .catch((err) => {

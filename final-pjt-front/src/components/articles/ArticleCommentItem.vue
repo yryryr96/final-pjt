@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>ArticleCommentItem</p>
-    <p>{{ comment.content }} - {{ username }}</p>
+    <p>{{ comment.content }} - <router-link :to="{name: 'ProfileView', params: {username: username}}">{{ username }}</router-link></p>
     <button @click="deleteComment">[Delete]</button>
     <hr>
   </div>
