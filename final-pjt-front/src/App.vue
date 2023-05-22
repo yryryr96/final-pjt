@@ -83,10 +83,38 @@
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text color="primary" @click='Search'>Search</v-btn>
+          <v-btn text color="primary" @click='searchMovies'>Search</v-btn>
           <v-btn text color="primary" @click="closeSearchDialog">Close</v-btn>
         </v-card-actions>
       </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="showSearchResultDialog" max-width="800">
+      <v-carousel hide-delimiters show-arrows v-model="currentCarouselIndex" cycle>
+        <v-carousel-item
+          v-for="(group, index) in groupedSearchResults"
+          :key="index"
+          style="text-align: center"
+        >
+          <v-row justify="center" align="center">
+            <v-col
+              v-for="(movie, movieIndex) in group"
+              :key="movieIndex"
+              cols="4"
+              sm="3"
+              md="2"
+              style="padding: 8px"
+            >
+              <v-card class="movie-card" :width="movieCardWidth">
+                <!-- 필요한 영화 카드 내용 표시 -->
+                <v-card-text>
+                  <img :src="getImageUrl(movie.poster_path)" class="moviePoster movie-item" @click="goDetail(movie)" />
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-carousel-item>
+      </v-carousel>
     </v-dialog>
   </v-app>
 </template>
@@ -101,23 +129,77 @@ export default {
       drawer: false,
       searchText: '',
       showSearchDialog: false,
+      showSearchResultDialog: false,
+      searchResults: [],
+      currentCarouselIndex: 0
     }
   },
+  computed : {
+    groupedSearchResults() {
+      const groupSize = 9;
+      const groups = [];
+      for (let i = 0; i < this.searchResults.length; i += groupSize) {
+        groups.push(this.searchResults.slice(i, i + groupSize));
+      }
+      return groups;
+    },
+    movieCardWidth() {
+      // 카드의 너비를 조정하기 위한 계산된 속성
+      const cardMargin = 16; // 카드 사이의 간격
+      const carouselWidth = 800; // 캐로셀의 너비
+      const groupSize = 9; // 그룹당 영화 수
+      const numGroups = Math.ceil(this.searchResults.length / groupSize); // 그룹의 수
+      const availableWidth = carouselWidth - (groupSize - 1) * cardMargin; // 사용 가능한 너비
+      return `${availableWidth / groupSize}px`;
+    }
+
+  },
   methods: {
-    Search(){
+    getImageUrl(posterPath){
+            const size = 'w200'
+            return `https://image.tmdb.org/t/p/${size}/${posterPath}`
+        },
+    // Search(){
+    //   axios({
+    //     method : 'get',
+    //     url : `${process.env.VUE_APP_SERVER_URL}/movies/search/?q=${this.searchText}`,
+    //     headers : {
+    //       Authorization : `Bearer ${this.$store.state.token}`
+    //     }
+    //   }).then((res)=>{
+    //     console.log(res)
+    //     this.showSearchDialog = false
+    //     this.searchText = ''
+    //   }).catch((err)=>{
+    //     console.log(err)
+    //   })
+    // },
+    goDetail(movie){
+      const movie_id = movie.id
+      this.$router.push({name : 'MovieDetailView', params : {movie_id :movie_id}})
+      this.showSearchResultDialog = false
+    },
+    searchMovies() {
       axios({
-        method : 'get',
-        url : `${process.env.VUE_APP_SERVER_URL}/movies/search/?q=${this.searchText}`,
-        headers : {
-          Authorization : `Bearer ${this.$store.state.token}`
+        method: 'get',
+        url: `${process.env.VUE_APP_SERVER_URL}/movies/search/?q=${this.searchText}`,
+        headers: {
+          Authorization: `Bearer ${this.$store.state.token}`
         }
-      }).then((res)=>{
-        console.log(res)
-        this.showSearchDialog = false
-        this.searchText = ''
-      }).catch((err)=>{
-        console.log(err)
       })
+        .then((res) => {
+          console.log(res);
+          this.searchResults = res.data;
+          this.showSearchDialog = false;
+          this.showSearchResultDialog = true;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    closeSearchResultDialog() {
+      this.showSearchResultDialog = false;
+      this.searchResults = [];
     },
     logout(){
       axios({
@@ -178,6 +260,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+/* 이전 스타일 코드 생략 */
 
+.movie-card {
+  margin-right: 16px;
+  flex-shrink: 0;
+  cursor:pointer;
+}
 </style>

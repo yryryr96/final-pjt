@@ -55,7 +55,7 @@ export default {
     },
     methods: {
         getImageUrl(posterPath){
-            const size = 'w300'
+            const size = 'w400'
             return `https://image.tmdb.org/t/p/${size}/${posterPath}`
         },
         getMovie(){

@@ -72,12 +72,12 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to,from,next) => {
-  if (to.name === from.name){
-    next(false)
-  } else{
-    next()
-  }
-})
+// router.beforeEach((to,from,next) => {
+//   if (to.name === from.name && to.params.movie_id === from.params.movie_id){
+//     next(false)
+//   } else{
+//     next()
+//   }
+// })
 
 export default router

@@ -91,5 +91,4 @@ export default {
   margin: 0 10px; /* 아이템들간의 간격 조정 */
 }
 
-
 </style>

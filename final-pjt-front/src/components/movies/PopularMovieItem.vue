@@ -24,9 +24,9 @@ export default {
 </script>
 
 <style>
-.moviePoster {
+/* .moviePoster {
   height: 300px;
-}
+} */
 
 .text-center {
   display: flex;

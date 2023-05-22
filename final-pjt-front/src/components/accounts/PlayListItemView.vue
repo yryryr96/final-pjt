@@ -42,7 +42,7 @@ export default {
       })
     },
     getImageUrl(posterPath) {
-      const size = 'w300'
+      const size = 'w200'
       return `https://image.tmdb.org/t/p/${size}/${posterPath}`
     },
   },
@@ -55,5 +55,6 @@ export default {
 <style scoped>
 .moviePoster {
   margin-bottom: 30px;
+  cursor : pointer;
 }
 </style>
