@@ -45,6 +45,12 @@
           </v-list-item-icon>
           <v-list-item-title>Sign up</v-list-item-title>
         </v-list-item>
+        <v-list-item @click="goToProfile">
+          <v-list-item-icon>
+            <v-icon>mdi-newspaper</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>MyProfile</v-list-item-title>
+        </v-list-item>
          <v-list-item @click="goTo('MovieView')">
           <v-list-item-icon>
             <v-icon>mdi-account-plus</v-icon>
@@ -131,6 +137,14 @@ export default {
       if (this.$route.name !== routeName) {
         this.$router.push({ name: routeName });
       }
+    },
+    goToProfile() {
+      for (const user of this.$store.state.users) {
+        if (this.$store.state.user.id == user.id) {
+          this.username = user.username
+        }
+      }
+      this.$router.push({name: 'ProfileView', params: {username: this.username}})
     },
     getUser() {
       axios({
