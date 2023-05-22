@@ -1,27 +1,16 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <v-container>
-        <!-- 검색창 -->
-        <v-text-field v-model="searchText" placeholder="Search" @keyup.enter="search" hide-details>
-          <template v-slot:append>
-            <v-btn icon @click="search">
-              <v-icon>mdi-magnify</v-icon>
-            </v-btn>
-          </template>
-        </v-text-field>
-      </v-container>
-    </v-app-bar>
-    <h1>ArticleView</h1>
-    <ArticleList/>
+  <v-container>
     <v-main>
-      <router-view/>
+    <h1>ArticleView</h1>
+    <router-link :to="{name: 'ArticleCreateView'}">[Create Article]</router-link>
+    <hr>
+    <ArticleList/>
     </v-main>
-  </v-app>
+  </v-container>
 </template>
 
 <script>
-import ArticleList from '@/components/ArticleList.vue'
+import ArticleList from '@/components/articles/ArticleList.vue'
 export default {
   name: 'ArticleView',
   components : {
@@ -39,6 +28,9 @@ export default {
       // 검색 로직을 구현하세요.
     },
   },
+  created() {
+    this.$store.dispatch('getArticles')
+  }
 }
 </script>
 <style>

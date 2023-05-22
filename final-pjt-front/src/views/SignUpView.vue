@@ -42,7 +42,6 @@
 
 <script>
 import axios from 'axios'
-const SERVER_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'SignUpView',
@@ -58,9 +57,11 @@ export default {
   },
   methods: {
     signup() {
+      console.log('signup')
+      console.log(process.env.VUE_APP_SERVER_URL)
       axios({
         method: 'post',
-        url: `${SERVER_URL}/accounts/register/`,
+        url: `${process.env.VUE_APP_SERVER_URL}/accounts/register/`,
         data: this.userinfo
       }).then((res) => {
         console.log(res)
@@ -72,6 +73,11 @@ export default {
       })
     },
   },
+  created(){
+    // if(this.$store.state.token==null){
+    //     alert('로그인이 필요합니다.')
+    // }
+  }
 }
 </script>
 

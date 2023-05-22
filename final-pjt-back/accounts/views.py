@@ -32,8 +32,7 @@ class RegisterAPIView(APIView):
                 status=status.HTTP_200_OK,
             )
             #쿠키에 넣어주기
-            res.set_cookie("access", access_token, httponly=True)
-            res.set_cookie("refresh", refresh_token, httponly=True)
+            
             return res
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -104,4 +103,13 @@ def follow(request, user_pk):
 def userinfo(request):
     users = get_user_model().objects.all()
     serializer = UserSerializer(users,many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def getuser(request):
+    user = request.user
+    serializer = UserSerializer(user)
     return Response(serializer.data)
