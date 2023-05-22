@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>{{this.$route.params.username}}'s Profile</h1>
+    <h1>{{user.username}}'s Profile</h1>
     <p>팔로잉 : {{ user.followings.length }}</p>
     <p>팔로워 : {{ user.followers_count }}</p>
     <hr>
     <!-- <h3>{{this.$route.params.username}}'s MoviePlaylist</h3> -->
-    <PlayListView :username="this.$route.params.username" :user="user" />
+    <PlayListView :username="user.username" :user="user" />
   </div>
 </template>
 

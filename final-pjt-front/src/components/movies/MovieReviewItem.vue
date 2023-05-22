@@ -53,8 +53,8 @@ export default {
                     Authorization : `Bearer ${this.$store.state.token}`
                 }
             }).then((res)=>{
-                console.log(res)
-                console.log(this.$store.state.user.id)
+                // console.log(res)
+                // console.log(this.$store.state.user.id)
                 this.getReviewDetail()
             }).catch((err)=>{
                 console.log(err)
@@ -102,10 +102,11 @@ export default {
                     Authorization : `Bearer ${this.$store.state.token}`
                 }
             }).then((res)=>{
-                console.log(res)
+                
                 this.review.like_users = res.data.like_users
                 this.review.like_users_count = res.data.like_users_count
-                console.log(this.review.like_users_count)
+                this.$set(this.review, 'like_users', res.data.like_users);
+                this.$set(this.review, 'like_users_count', res.data.like_users_count)
             }).catch((err)=>{
                 console.log(err)
             })
@@ -113,8 +114,9 @@ export default {
     },
     created(){
         this.getReviewUser()
-        console.log(this.$store.state.user.id)
-        console.log(this.review)
+        this.getReviewDetail()
+        // console.log(this.$store.state.user.id)
+        // console.log(this.review)
     }
 }
 </script>

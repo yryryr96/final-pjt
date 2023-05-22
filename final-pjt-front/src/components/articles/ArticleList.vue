@@ -15,15 +15,33 @@ export default {
     name : 'ArticleList',
     data(){
         return {
-            articles : this.$store.state.articles
+            articles : null
         }
     },
     components : {
         ArticleListItem
     },
     methods : {
-
+         getArticles(context) {
+            axios({
+                method: 'get',
+                url : `${process.env.VUE_APP_SERVER_URL}/movies/articles/`,
+                headers: {
+                Authorization : `Bearer ${this.$store.state.token}`
+                }
+            })
+            .then((res) => {
+                console.log(res)
+                this.articles = res.data
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }
     },
+    created(){
+        this.getArticles()
+    }
 }
 </script>
 

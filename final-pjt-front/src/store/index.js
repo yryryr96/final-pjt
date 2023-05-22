@@ -31,7 +31,7 @@ export default new Vuex.Store({
       state.articles = articles
     },
     SET_USER(state,Me){
-      state.user = Me
+      state.user = Me.user
     }
   },
   actions: {

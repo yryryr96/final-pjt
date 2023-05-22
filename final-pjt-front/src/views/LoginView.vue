@@ -63,6 +63,7 @@ export default {
                 }
             }).then((res)=>{
                 localStorage.setItem('token',res.data.token.access)
+                this.$store.dispatch('setToken')
                 this.$store.dispatch('setUser',res.data)
                 this.$router.push({name : 'home'})
                 console.log(res)

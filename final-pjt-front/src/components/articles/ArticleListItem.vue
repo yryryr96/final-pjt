@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>{{article.title}}</p>
-    <p>작성자 : <router-link :to="{name: 'ProfileView', params: {username: username}}">{{ username }}</router-link></p>
+    <p>작성자 : <router-link :to="{name: 'ProfileView', params: {username: article.user}}">{{ article.user }}</router-link></p>
     <button @click="GoDetail">[Detail]</button>
     <hr>
   </div>
@@ -32,10 +32,12 @@ export default {
           }
         })
         .then((res)=>{
-          for (const user of this.$store.state.users){
-            if (user.id == this.article.user){
-              this.username = user.username
-            }
+          // console.log(res)
+          for (const user of this.$store.state.users) {
+              if (user.id === this.article.user) {
+                this.article.user = user.username
+                break;
+              }
           }
           
         })
