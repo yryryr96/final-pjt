@@ -57,6 +57,7 @@ export default {
                 console.log(res)
                 console.log('hi')
                 this.article = res.data
+                this.article_id = res.data.id
                 this.article.like_users = res.data.like_users
                 this.article.like_users_count = res.data.like_users_count
                 

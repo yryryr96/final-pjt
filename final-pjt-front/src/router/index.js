@@ -9,6 +9,7 @@ import LoginView from '@/views/LoginView.vue'
 import ArticleDetailView from '@/views/ArticleDetailView.vue'
 import ArticleCreateView from '@/views/ArticleCreateView.vue'
 import ProfileView from '@/views/ProfileView.vue'
+import ArticleUpdateView from '@/views/ArticleUpdateView.vue'
 
 Vue.use(VueRouter)
 
@@ -57,6 +58,11 @@ const routes = [
     path : '/profile/:username',
     name : 'ProfileView',
     component : ProfileView
+  },
+  {
+    path : '/articles/update/:article_id',
+    name : 'ArticleUpdateView',
+    component : ArticleUpdateView
   },
 ]
 
