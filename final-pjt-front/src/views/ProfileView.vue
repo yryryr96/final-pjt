@@ -3,7 +3,6 @@
     <h1>{{user.username}}'s Profile</h1>
     <p>팔로잉 : {{ user.followings.length }}</p>
     <p>팔로워 : {{ user.followers_count }}</p>
-    <FollowingListView :userId="user?.id" />
     
     <div class="text-center">
     <v-btn
@@ -17,7 +16,17 @@
       width="auto"
     >
       <v-card>
-        <FollowingListView :userId="user?.id" />
+        <div v-if="followings && followings.length > 0">
+            <FollowingListItemView
+            v-for="following in followings"
+            :key="following.id"
+            :following="following"
+            @goToProfile="goToProfile2(following)"
+            />    
+        </div>
+        <div v-else>
+            <p>팔로잉한 사람이 없습니다.</p>
+        </div>
         <v-card-actions>
           <v-btn color="primary" block @click="dialog = false">목록 닫기</v-btn>
         </v-card-actions>
@@ -35,18 +44,19 @@
 <script>
 import axios from 'axios'
 import PlayListView from '@/components/accounts/PlayListView.vue'
-import FollowingListView from '@/components/accounts/FollowingListView.vue'
+import FollowingListItemView from '@/components/accounts/FollowingListItemView.vue'
 
 export default {
     name: 'ProfileView',
     components: {
         PlayListView,
-        FollowingListView
+        FollowingListItemView
     },
     data() {
         return {
             user: [],
             dialog: false,
+            followings: [],
         }
     },
     methods: {
@@ -88,11 +98,38 @@ export default {
             }).catch((err)=>{
                 console.log(err)
             })
+        },
+        getFollowings() {
+            axios({
+            method: 'get',
+            url: `${process.env.VUE_APP_SERVER_URL}/accounts/profile/${this.user.id}/`,
+            headers: {
+                Authorization: `Bearer ${this.$store.state.token}`
+            }
+            }).then((res)=>{
+            console.log('getFollowings')
+            console.log(res.data.followings)
+            this.followings = res.data.followings
+            }).catch((err)=>{
+            console.log(err)
+            })
+        },
+        goToProfile2(following) {
+            this.dialog = false
+            let username1 = null
+            for (const user of this.$store.state.users) {
+                if (following === user.id) {
+                    username1 = user.username
+                }
+            }
+            this.$router.push({name: 'ProfileView', params: {username: username1}})
+            location.reload();
         }
     },
     created() {
         this.getUser()
         this.getUserDetail()
+        this.getFollowings()
     }
 }
 </script>

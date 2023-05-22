@@ -73,10 +73,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to,from,next) => {
-  if (to.name === from.name){
-    next(false)
-  } else{
+  if (to.name !== from.name){
     next()
+  } else if (to.name === 'ProfileView' && from.name === 'ProfileView'){
+    next()
+  } else {
+    next(false)
   }
 })
 

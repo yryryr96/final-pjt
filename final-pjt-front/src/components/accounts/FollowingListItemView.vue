@@ -1,12 +1,13 @@
 <template>
   <div>
     <h5>FollowingListItemView</h5>
-    <router-link :to="profileLink">{{ followingInfo?.username }}</router-link>
+    <p @click="goToProfile">{{ this.followingInfo?.username}}</p>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+
 export default {
   name: 'FollowingListItemView',
   props: {
@@ -14,41 +15,32 @@ export default {
   },
   data() {
     return {
-      followingInfo: [],
-      username: null,
-    }
-  },
-  computed: {
-    profileLink() {
-      return {
-        name: 'ProfileView',
-        params: { username: this.followingInfo?.username },
-      }
-    },
+      followingInfo: null,
+    };
   },
   methods: {
     getFollowing() {
-      axios({
-        method: 'get',
-        url: `${process.env.VUE_APP_SERVER_URL}/accounts/profile/${this.following}/`,
-        headers: {
-          Authorization: `Bearer ${this.$store.state.token}`,
-        },
-      })
+      axios
+        .get(`${process.env.VUE_APP_SERVER_URL}/accounts/profile/${this.following}/`, {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`,
+          },
+        })
         .then((res) => {
-          console.log(res.data)
-          this.followingInfo = res.data
-          this.followingInfo.username = res.data.username
+          this.followingInfo = res.data;
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
+    goToProfile() {
+        this.$emit('goToProfile')
+    }
   },
-  mounted() {
-    this.getFollowing()
+  created() {
+    this.getFollowing();
   },
-}
+};
 </script>
 
 <style>
