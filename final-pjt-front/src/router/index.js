@@ -1,23 +1,57 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import ArticleView from '@/views/ArticleView.vue'
+import SignUpView from '@/views/SignUpView.vue'
+import MovieView from '@/views/MovieView.vue'
+import MovieDetailView from '@/views/MovieDetailView.vue'
+import ArticleDetailView from '@/views/ArticleDetailView.vue'
+import ArticleCreateView from '@/views/ArticleCreateView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'home',
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path:'/articles',
+    name : 'ArticleView',
+    component : ArticleView
+  },
+  {
+    path : '/signup',
+    name : 'SignUpView',
+    component : SignUpView
+  },
+  {
+    path : '/movies',
+    name : 'MovieView',
+    component : MovieView
+  },
+  {
+    path : '/detail/:movie_id',
+    name : 'MovieDetailView',
+    component : MovieDetailView
+  },
+  {
+    path : '/articles/detail/:article_id',
+    name : 'ArticleDetailView',
+    component : ArticleDetailView
+  },
+  {
+    path : '/articles/create',
+    name : 'ArticleCreateView',
+    component : ArticleCreateView
+  },
+  {
+    path : '/profile/:username',
+    name : 'ProfileView',
+    component : ProfileView
+  },
 ]
 
 const router = new VueRouter({

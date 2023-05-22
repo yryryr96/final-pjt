@@ -9,6 +9,7 @@ from .serializers import *
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.contrib.auth import get_user_model
 
 TMDB_API_KEY = '386ea6e619bc3b5721f33392e34505c2'
 
@@ -90,21 +91,27 @@ def movie_detail(request, movie_id):
 
         request_url = f'https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={TMDB_API_KEY}&language=ko-KR'
         movie = requests.get(request_url).json()
+        # print(movie['cast'])
         actors = []
         directors = []
         for person in movie['cast']:
             if person['known_for_department'] == 'Acting':
                 actors.append([person['name'], person['popularity']])
-            elif person['known_for_department'] == 'Directing':
+        for person in movie['crew'] :
+            if person['known_for_department'] == 'Directing':
                 directors.append([person['name'], person['popularity']])
+            # print(person)
+        
         actors.sort(key = lambda x : -x[1])
         directors.sort(key = lambda x : -x[1])
-
-        setattr(moviedetail, 'actors', actors[:4])
-        setattr(moviedetail, 'directors', directors[0])
+        Ac = []
+        for i in range(4):
+            Ac.append(actors[i][0])
+        setattr(moviedetail, 'actors', Ac)
+        setattr(moviedetail, 'directors', directors[0][0])
 
         serializer = MovieDetailSerializer(moviedetail)
-
+        # print(serializer.data)
         return Response(serializer.data)
     
 
@@ -134,14 +141,14 @@ def review_detail(request, review_id):
     if request.user.moviereview_set.filter(pk=review_id).exists():
         if request.method == 'DELETE':
             review.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response({'삭제 완료'},status=status.HTTP_204_NO_CONTENT)
         
         elif request.method == 'PUT':
             serializer = MovieReviewSerializer(review, data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data)
-    return Response({'detail': '권한이 없습니다.'})
+    return Response(None)
 
 
 @api_view(['POST', 'GET'])
@@ -204,3 +211,47 @@ def comment_delete(request, comment_id):
             comment.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response({'detail': '권한이 없습니다.'})
+    
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def movie_detail_like(request, movie_id):
+    if request.method == 'POST':
+        movie = get_object_or_404(Movie, pk=movie_id)
+        if movie.like_users.filter(pk=request.user.pk).exists():
+            movie.like_users.remove(request.user)
+            return Response({'detail': '좋아요 취소'})
+        else:
+            movie.like_users.add(request.user)
+            return Response({'detail': '좋아요 완료'})
+        
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def review_detail_like(request, review_id):
+    if request.method == 'POST':
+        review = get_object_or_404(MovieReview, pk=review_id)
+        if review.like_users.filter(pk=request.user.pk).exists():
+            review.like_users.remove(request.user)
+            return Response({'detail': '좋아요 취소'})
+        else:
+            review.like_users.add(request.user)
+            return Response({'detail': '좋아요 완료'})
+        
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def article_datail_like(request, article_id):
+    if request.method == 'POST':
+        article = get_object_or_404(Article, pk=article_id)
+        if article.like_users.filter(pk=request.user.pk).exists():
+            article.like_users.remove(request.user)
+            return Response({'detail': '좋아요 취소'})
+        else:
+            article.like_users.add(request.user)
+            return Response({'detail': '좋아요 완료'})

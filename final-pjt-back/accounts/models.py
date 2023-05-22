@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-from api.models import Genre
+from api.models import Genre, Movie
 # Create your models here.
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -13,6 +13,7 @@ class UserManager(BaseUserManager):
             login_id=login_id,
             username=username,
         )
+               
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -40,6 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     updated_at = models.DateTimeField(auto_now=True)
     followings = models.ManyToManyField('self',symmetrical=False,related_name='followers', blank=True)
     like_genres = models.ManyToManyField(Genre, blank=True)
+    like_movies = models.ManyToManyField(Movie, blank=True, related_name='like_users')
 
     objects = UserManager()
 
