@@ -6,6 +6,8 @@ urlpatterns = [
     path('get_top_rated/', views.get_top_rated, name='get_top_rated'),
     path('genres/', views.get_genres, name='get_genres'),
     path('signupgenres/', views.signup_genres, name='signup_genres'),
+    path('top_rated/',views.top_rated),
+    path('popular_rated',views.popular_rated),
     # 이동할 url
     # 영화
     path('', views.movie_list, name='movie_list'), # get - 영화 전체 조회

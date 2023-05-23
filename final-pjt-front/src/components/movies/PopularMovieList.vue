@@ -5,8 +5,6 @@
       hide-delimiters
       show-arrows
       v-model="currentCarouselIndex"
-      class="custom-carousel"
-      style="display:flex;"
     >
       <v-carousel-item
         v-for="(group, index) in groupedPopularMovies"
@@ -18,7 +16,6 @@
             v-for="(movie, movieIndex) in groupWithRepeatedItems(group, 9)"
             :key="movieIndex"
             :movie="movie"
-            class="carousel-item"
           />
         </div>
       </v-carousel-item>
@@ -54,6 +51,8 @@ export default {
     this.$store.dispatch('getPopularMovies');
   },
   mounted() {
+    console.log('mounted')
+    console.log(this.$store.state.popular_movies)
     const savedCarouselIndex = sessionStorage.getItem('carouselIndex');
     if (savedCarouselIndex !== null) {
       this.currentCarouselIndex = parseInt(savedCarouselIndex);
@@ -77,18 +76,10 @@ export default {
 <style scoped>
 .movie-group {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.custom-carousel .v-carousel-item {
-  display: flex;
-  justify-content: center;
-}
 
-.carousel-item {
-  display: inline-block;
-  width: 200px; /* 아이템의 너비 조정 */
-  margin: 0 10px; /* 아이템들간의 간격 조정 */
-}
 
 </style>

@@ -77,9 +77,9 @@ export default {
         console.log(res)
         console.log('signup then')
         console.log(this.userinfo)
-        const token = res.data.token.access
-        localStorage.setItem('token', token)
-        this.$router.push('ArticleView')
+        // const token = res.data.token.access
+        // localStorage.setItem('token', token)
+        this.$router.push({name:'LoginView'})
       }).catch((err) => {
         console.log('signup error')
         console.log(this.userinfo)

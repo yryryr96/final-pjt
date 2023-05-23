@@ -27,19 +27,19 @@
           </v-list-item-icon>
           <v-list-item-title>Home</v-list-item-title>
         </v-list-item>
-        <v-list-item @click="goTo('LoginView')">
+        <v-list-item v-show="this.$store.state.token===null" @click="goTo('LoginView')">
           <v-list-item-icon>
             <v-icon>mdi-account-plus</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Login</v-list-item-title>
         </v-list-item>
-         <v-list-item @click="logout">
+         <v-list-item v-show="this.$store.state.token!==null" @click="logout">
           <v-list-item-icon>
             <v-icon>mdi-account-plus</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
-        <v-list-item @click="goTo('SignUpView')">
+        <v-list-item v-show="this.$store.state.token===null"@click="goTo('SignUpView')">
           <v-list-item-icon>
             <v-icon>mdi-account-plus</v-icon>
           </v-list-item-icon>
@@ -90,8 +90,8 @@
     </v-dialog>
 
     <v-dialog v-model="showSearchResultDialog" max-width="800">
-      <v-carousel hide-delimiters show-arrows v-model="currentCarouselIndex" cycle>
-        <v-carousel-item
+      <v-carousel v-if="searchResults && searchResults.length > 0" hide-delimiters show-arrows v-model="currentCarouselIndex" cycle>
+        <v-carousel-item 
           v-for="(group, index) in groupedSearchResults"
           :key="index"
           style="text-align: center"
@@ -115,6 +115,9 @@
           </v-row>
         </v-carousel-item>
       </v-carousel>
+      <v-carousel v-else>
+          <h1>없어</h1>
+        </v-carousel>
     </v-dialog>
   </v-app>
 </template>
@@ -178,6 +181,7 @@ export default {
       const movie_id = movie.id
       this.$router.push({name : 'MovieDetailView', params : {movie_id :movie_id}})
       this.showSearchResultDialog = false
+      location.reload();
     },
     searchMovies() {
       axios({
@@ -188,7 +192,6 @@ export default {
         }
       })
         .then((res) => {
-          console.log(res);
           this.searchResults = res.data;
           this.showSearchDialog = false;
           this.showSearchResultDialog = true;
@@ -211,7 +214,8 @@ export default {
         this.$router.push({name:'LoginView'})
       }).catch((err)=>{
         console.log(err)
-      })
+      }),
+      this.$store.dispatch('logout')
     },
     clearSearch() {
       this.searchText = '';

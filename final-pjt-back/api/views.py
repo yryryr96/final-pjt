@@ -10,8 +10,10 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import get_user_model
-from django.db.models import Q
-from Levenshtein import distance
+from django.db.models import Q,Func
+from django.db.models.functions import Replace
+from django.db.models import Value,CharField
+
 
 TMDB_API_KEY = '386ea6e619bc3b5721f33392e34505c2'
 
@@ -77,6 +79,39 @@ def get_top_rated(request):
         json.dump(total_data, w, indent=2, ensure_ascii=False)
 
 
+def top_rated(request):
+    total_data = []
+    for i in range(1, 3):
+        request_url = f'https://api.themoviedb.org/3/movie/top_rated?api_key={TMDB_API_KEY}&language=ko-KR&page={i}'
+        movies = requests.get(request_url).json()
+
+        for movie in movies['results']:
+            if movie.get('release_date', '') and movie.get('overview','') and movie.get('poster_path',''):
+                fields = {
+                    'id': movie['id'],
+                    'title': movie['title'],
+                    'original_title': movie['original_title'],
+                    'overview': movie['overview'],
+                    'release_date': movie['release_date'],
+                    'popularity': movie['popularity'],
+                    'poster_path': movie['poster_path'],
+                    'genres': movie['genre_ids'],
+                    'vote_average' : movie['vote_average'],
+                    'vote_count' : movie['vote_count']
+                }
+
+                data = {
+                    'pk': movie['id'],
+                    'model': 'api.movie',
+                    'fields': fields
+                }
+
+                total_data.append(data)
+    serializer = MovieSerializer(total_data,many=True)
+    return Response(serializer.data)
+
+def popular_rated(reqeust):
+    pass
 
 def get_genres(request):
     total_data = []
@@ -301,9 +336,14 @@ def article_datail_like(request, article_id):
 @permission_classes([IsAuthenticated])
 def search_movies(request):
     keyword = request.GET.get('q', '')  # 검색 키워드를 가져옴
-    keyword = keyword.replace(" ","")
-    movies = Movie.objects.filter(
-        Q(title__icontains=keyword)  # 영화 제목에 키워드가 포함되는 경우
+    keyword1 = keyword
+    keyword2 = keyword.replace(" ","")
+    # print(keyword1,keyword2)
+    movies = Movie.objects.annotate(
+        title_without_spaces=Replace('title', Value(' '), Value(''), output_field=CharField())
+    ).filter(
+        Q(title__icontains=keyword1) |
+        Q(title_without_spaces__icontains=keyword2)
     )
     
     # 필요한 데이터를 직렬화하여 응답

@@ -23,9 +23,11 @@ export default new Vuex.Store({
   },
   mutations: {
     SET_POPULAR_MOVIE(state,movies){
+      console.log(movies)
       state.popular_movies = movies
     },
     SET_TOP_RATED_MOVIE(state,movies){
+      console.log(movies)
       state.top_rated_movies = movies
     },
     GET_USERS(state,users){
@@ -42,6 +44,9 @@ export default new Vuex.Store({
     },
     SET_USER(state,Me){
       state.user = Me.user
+    },
+    LOGOUT(state){
+      state.token = null
     }
   },
   actions: {
@@ -90,54 +95,39 @@ export default new Vuex.Store({
       })
     },
     getTopRatedMovies(context) {
-      const top_rated_movies = [];
-    
-      const requests = [];
-      for (let i = 1; i <= 2; i++) {
-        const request = axios({
-          method: 'get',
-          url: `https://api.themoviedb.org/3/movie/top_rated?language=ko-KR&page=${i}&api_key=${process.env.VUE_APP_API_KEY}`
-        });
-    
-        requests.push(request);
-      }
-    
-      axios.all(requests)
-        .then(axios.spread((...responses) => {
-          responses.forEach((response) => {
-            top_rated_movies.push(...response.data.results);
-          });
-    
-          context.commit('SET_TOP_RATED_MOVIE', top_rated_movies);
-        }))
-        .catch((error) => {
-          console.log(error);
-        });
+        axios({
+          mothod : 'get',
+          url : `${process.env.VUE_APP_SERVER_URL}/movies/`,
+          headers : {
+            Authorization : this.state.token
+          }
+        }).then((res)=>{
+          console.log('hi')
+          // console.log(res)
+          const top_movies = res.data.filter(movie=>{
+            return movie.vote_average >= 8.0
+          })
+          context.commit('SET_TOP_RATED_MOVIE',top_movies)
+        })
     },
     getPopularMovies(context) {
-      const popular_movies = [];
-    
-      const requests = [];
-      for (let i = 1; i <= 2; i++) {
-        const request = axios({
-          method: 'get',
-          url: `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page=${i}&sort_by=popularity.desc&api_key=${process.env.VUE_APP_API_KEY}`
-        });
-    
-        requests.push(request);
-      }
-    
-      axios.all(requests)
-        .then(axios.spread((...responses) => {
-          responses.forEach((response) => {
-            popular_movies.push(...response.data.results);
-          });
-    
-          context.commit('SET_POPULAR_MOVIE', popular_movies);
-        }))
-        .catch((error) => {
-          console.log(error);
-        });
+      axios({
+        method : 'get',
+        url : `${process.env.VUE_APP_SERVER_URL}/movies/`,
+        headers : {
+          Authorization : this.state.token
+        }
+      }).then((res)=>{
+        console.log('pop')
+        // console.log(res)
+        const popular_movies = res.data.filter(movie=>{
+          return movie.popularity >= 400 
+        })
+        context.commit('SET_POPULAR_MOVIE',popular_movies)
+      })
+    },
+    logout(context){
+      context.commit('LOGOUT')
     }
   },
   modules: {
