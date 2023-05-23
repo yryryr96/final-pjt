@@ -7,7 +7,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ('login_id','username','password','confirmpassword')
+        fields = ('login_id','username','password','confirmpassword','like_genres',)
 
     def validate(self,attrs):
         password = attrs.get('password')
@@ -22,12 +22,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         login_id = validated_data.get('login_id')
         username = validated_data.get('username')
         password = validated_data.get('password')
+        like_genres = validated_data.get('like_genres')
         user = User(
             login_id=login_id,
             username=username
         )
         user.set_password(password)
         user.save()
+        for genre in like_genres :
+            user.like_genres.add(genre)
         return user
     
 

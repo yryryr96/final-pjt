@@ -93,6 +93,7 @@ export default {
             }).then((res)=>{
                 console.log('getUserDetail')
                 this.user = res.data
+                // console.log(this.user)
                 this.user.followers_count = res.data.followers_count
                 this.user.followings = res.data.followings
             }).catch((err)=>{

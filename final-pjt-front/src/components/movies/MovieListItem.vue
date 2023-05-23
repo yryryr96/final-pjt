@@ -16,7 +16,7 @@ export default {
             this.$router.push({name : 'MovieDetailView', params: {movie_id: this.movie.id}})
         },
         getImageUrl(posterPath){
-            const size = 'w300'
+            const size = 'w200'
             return `https://image.tmdb.org/t/p/${size}/${posterPath}`
         },
     }

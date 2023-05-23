@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from Levenshtein import distance
 
 TMDB_API_KEY = '386ea6e619bc3b5721f33392e34505c2'
 
@@ -18,12 +19,12 @@ TMDB_API_KEY = '386ea6e619bc3b5721f33392e34505c2'
 def get_top_rated(request):
     total_data = []
     
-    for i in range(1, 501):
+    for i in range(1, 31):
         request_url = f'https://api.themoviedb.org/3/movie/top_rated?api_key={TMDB_API_KEY}&language=ko-KR&page={i}'
         movies = requests.get(request_url).json()
 
         for movie in movies['results']:
-            if movie.get('release_date', ''):
+            if movie.get('release_date', '') and movie.get('overview','') and movie.get('poster_path',''):
                 fields = {
                     'id': movie['id'],
                     'title': movie['title'],
@@ -33,6 +34,8 @@ def get_top_rated(request):
                     'popularity': movie['popularity'],
                     'poster_path': movie['poster_path'],
                     'genres': movie['genre_ids'],
+                    'vote_average' : movie['vote_average'],
+                    'vote_count' : movie['vote_count']
                 }
 
                 data = {
@@ -42,6 +45,33 @@ def get_top_rated(request):
                 }
 
                 total_data.append(data)
+        
+        for i in range(1, 31):
+            request_url = f'https://api.themoviedb.org/3/movie/popular?api_key={TMDB_API_KEY}&language=ko-KR&page={i}'
+            movies = requests.get(request_url).json()
+
+            for movie in movies['results']:
+                if movie.get('release_date', '') and movie.get('overview','') and movie.get('poster_path',''):
+                    fields = {
+                        'id': movie['id'],
+                        'title': movie['title'],
+                        'original_title': movie['original_title'],
+                        'overview': movie['overview'],
+                        'release_date': movie['release_date'],
+                        'popularity': movie['popularity'],
+                        'poster_path': movie['poster_path'],
+                        'genres': movie['genre_ids'],
+                        'vote_average' : movie['vote_average'],
+                        'vote_count' : movie['vote_count']
+                    }
+
+                    data = {
+                        'pk': movie['id'],
+                        'model': 'api.movie',
+                        'fields': fields
+                    }
+                    if data not in total_data :
+                        total_data.append(data)
     
     with open('top_rated_movie_data.json', 'w', encoding='utf-8') as w:
         json.dump(total_data, w, indent=2, ensure_ascii=False)
@@ -102,12 +132,16 @@ def movie_detail(request, movie_id):
             if person['known_for_department'] == 'Directing':
                 directors.append([person['name'], person['popularity']])
             # print(person)
-        
+        if not directors :
+            for person in movie['crew'] :
+                directors.append([person['name'],person['popularity']])
+            
         actors.sort(key = lambda x : -x[1])
         directors.sort(key = lambda x : -x[1])
         Ac = []
         for i in range(4):
             Ac.append(actors[i][0])
+        
         setattr(moviedetail, 'actors', Ac)
         setattr(moviedetail, 'directors', directors[0][0])
 
@@ -260,7 +294,6 @@ def article_datail_like(request, article_id):
         else:
             article.like_users.add(request.user)
             return Response({'detail': '좋아요 완료'})
-        
 
 
 @api_view(['GET'])
@@ -268,11 +301,17 @@ def article_datail_like(request, article_id):
 @permission_classes([IsAuthenticated])
 def search_movies(request):
     keyword = request.GET.get('q', '')  # 검색 키워드를 가져옴
-    
+    keyword = keyword.replace(" ","")
     movies = Movie.objects.filter(
         Q(title__icontains=keyword)  # 영화 제목에 키워드가 포함되는 경우
     )
     
     # 필요한 데이터를 직렬화하여 응답
     serializer = MovieSerializer(movies, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def signup_genres(request):
+    genres = get_list_or_404(Genre)
+    serializer = GenreSerializer(genres, many=True)
     return Response(serializer.data)

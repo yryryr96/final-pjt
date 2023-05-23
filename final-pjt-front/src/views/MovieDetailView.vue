@@ -26,8 +26,15 @@
           </v-btn>
         </p>
           
-        <p class="small">출연 : {{ movie?.actors }}</p>
+       <p class="small">
+          출연:
+          <template v-for="(actor, index) in movie?.actors">
+            <span :key="actor">{{ actor }}</span>
+            <span v-if="index !== movie?.actors.length - 1">, </span>
+          </template>
+        </p>
         <p class="small">감독 : {{ movie?.directors }}</p>
+        <p class="small">평점 : {{ movie?.vote_average }}</p>
         <h4>Overview</h4>
         <p>{{ movie?.overview }}</p>
         <MovieReview :movie_id="parseInt($route.params.movie_id)" />
@@ -67,9 +74,16 @@ export default {
                     Authorization : `Bearer ${this.$store.state.token}`
                 }
             }).then((res)=>{
-                console.log(this.$store.state.user)
-                console.log(res)
+                // console.log(this.$store.state.user)
+                console.log(res.data.actors)
+                const actorsString = res.data.actors
+                const cleanedString = actorsString.replace(/\[|\]|'/g, "");
+                const actorsArray = cleanedString.split(", ");
+
+                console.log(actorsArray[0]);
                 this.movie = res.data
+                this.movie.actors = actorsArray
+                // this.movie.actors = JSON.parse(res.data.actors)
             })
         },
         likeMovie(){

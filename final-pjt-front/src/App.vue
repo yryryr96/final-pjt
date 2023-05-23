@@ -192,6 +192,7 @@ export default {
           this.searchResults = res.data;
           this.showSearchDialog = false;
           this.showSearchResultDialog = true;
+          this.searchText = ''
         })
         .catch((err) => {
           console.log(err);

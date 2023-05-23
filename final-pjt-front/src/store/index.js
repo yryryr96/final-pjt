@@ -63,11 +63,7 @@ export default new Vuex.Store({
           url : `${process.env.VUE_APP_SERVER_URL}/movies/`,
           
       }).then((res)=>{
-          const movies = []
-          for(let i=0;i<20;i++){
-            movies.push(res.data[i])
-          }
-          context.commit('GET_MOVIES',movies)
+          context.commit('GET_MOVIES',res.data)
           console.log('good')
           // this.movies = res.data
       }).catch((err)=>{

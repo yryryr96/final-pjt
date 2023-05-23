@@ -12,6 +12,11 @@ class Movie(models.Model):
     popularity = models.FloatField()
     poster_path = models.TextField(null=True)
     genres = models.ManyToManyField(Genre, related_name='movies', blank=True)
+    vote_average = models.FloatField()
+    vote_count = models.IntegerField()
+    
+    class Meta :
+        ordering = ['-popularity','release_date',]
     
 
 class Article(models.Model) :

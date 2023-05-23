@@ -5,7 +5,7 @@ urlpatterns = [
     # 기본 데이터 추출
     path('get_top_rated/', views.get_top_rated, name='get_top_rated'),
     path('genres/', views.get_genres, name='get_genres'),
-
+    path('signupgenres/', views.signup_genres, name='signup_genres'),
     # 이동할 url
     # 영화
     path('', views.movie_list, name='movie_list'), # get - 영화 전체 조회
