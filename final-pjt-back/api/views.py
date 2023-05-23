@@ -276,3 +276,11 @@ def search_movies(request):
     # 필요한 데이터를 직렬화하여 응답
     serializer = MovieSerializer(movies, many=True)
     return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+def signup_genres(request):
+    genres = get_list_or_404(Genre)
+    serializer = GenreSerializer(genres, many=True)
+    return Response(serializer.data)

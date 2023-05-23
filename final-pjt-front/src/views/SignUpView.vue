@@ -7,7 +7,7 @@
             <h1 class="white--text">SignUp</h1>
           </v-card-title>
           <v-card-text>
-            <v-form @submit.prevent="signup">
+            <v-form @submit.prevent="signup" @keyup.enter.prevent>
               <v-text-field
                 v-model="userinfo.login_id"
                 label="ID"
@@ -29,7 +29,15 @@
                 label="Confirm Password"
                 type="password"
                 required
-                @keyup.enter="signup"
+              ></v-text-field>
+              <p>#####</p>
+              <v-text-field
+                type="checkbox"
+                v-for="genre in genres"
+                :label="genre.name"
+                :key="genre.id"
+                @click="addLikeGenres(genre)"
+                required
               ></v-text-field>
               <v-btn type="submit" color="yellow darken-2" class="mt-4">Sign Up</v-btn>
             </v-form>
@@ -52,7 +60,9 @@ export default {
         username: '',
         password: '',
         confirmpassword: '',
+        like_genres: [],
       },
+      genres: [],
     }
   },
   methods: {
@@ -65,15 +75,43 @@ export default {
         data: this.userinfo
       }).then((res) => {
         console.log(res)
+        console.log('signup then')
+        console.log(this.userinfo)
         const token = res.data.token.access
         localStorage.setItem('token', token)
         this.$router.push('ArticleView')
       }).catch((err) => {
+        console.log('signup error')
+        console.log(this.userinfo)
         console.log(err)
       })
     },
+    getGenres() {
+      axios({
+        method: 'get',
+        url: `${process.env.VUE_APP_SERVER_URL}/movies/signupgenres/`,
+      })
+      .then((res)=>{
+        console.log(res)
+        this.genres = res.data
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    },
+    addLikeGenres(genre) {
+      if (this.userinfo.like_genres.includes(genre.id)) {
+        const index = this.userinfo.like_genres.indexOf(genre.id);
+        if (index !== -1) {
+          this.userinfo.like_genres.splice(index, 1)
+        }
+      } else {
+        this.userinfo.like_genres.push(genre.id)
+      }
+    }
   },
   created(){
+    this.getGenres()
     // if(this.$store.state.token==null){
     //     alert('로그인이 필요합니다.')
     // }

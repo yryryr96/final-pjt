@@ -13,6 +13,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 
 class RegisterAPIView(APIView):
     def post(self, request):
+        print(request.data)
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
@@ -31,7 +32,6 @@ class RegisterAPIView(APIView):
                 },
                 status=status.HTTP_200_OK,
             )
-            #쿠키에 넣어주기
             
             return res
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

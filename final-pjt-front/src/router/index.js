@@ -72,12 +72,14 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to,from,next) => {
-  if (to.name === from.name){
-    next(false)
-  } else{
-    next()
-  }
-})
+// router.beforeEach((to,from,next) => {
+//   if (to.name !== from.name){
+//     next()
+//   } else if (to.name === 'ProfileView' || from.name === 'ProfileView'){
+//     next()
+//   } else {
+//     next(false)
+//   }
+// })
 
 export default router

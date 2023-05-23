@@ -22,9 +22,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         login_id = validated_data.get('login_id')
         username = validated_data.get('username')
         password = validated_data.get('password')
+        # like_genres = validated_data.get('like_genres')
         user = User(
             login_id=login_id,
-            username=username
+            username=username,
+            # like_genres=like_genres,
         )
         user.set_password(password)
         user.save()
