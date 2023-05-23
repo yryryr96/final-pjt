@@ -15,11 +15,13 @@ export default new Vuex.Store({
     user : null,
     token : null,
     top_rated_movies : null,
-    popular_movies : null
+    popular_movies : null,
+    recommended_movies : null,
   },
   getters: {
     getTopRatedMovies : state => state.top_rated_movies,
     getPopularMovies : state => state.popular_movies,
+    getRecommendedMovies : state => state.recommended_movies,
   },
   mutations: {
     SET_POPULAR_MOVIE(state,movies){
@@ -27,6 +29,9 @@ export default new Vuex.Store({
     },
     SET_TOP_RATED_MOVIE(state,movies){
       state.top_rated_movies = movies
+    },
+    SET_RECOMMENDED_MOVIES(state,movies){
+      state.recommended_movies = movies
     },
     GET_USERS(state,users){
       state.users = users
@@ -138,6 +143,57 @@ export default new Vuex.Store({
         .catch((error) => {
           console.log(error);
         });
+    },
+    getRecommendedMovies(context) {
+      console.log('getRecommendedMovies start')
+      const recommended_movies = [];
+      const user = this.state.user
+      const requests = [];
+      axios({
+        method: 'get',
+        url: `${process.env.VUE_APP_SERVER_URL}/movies/`
+      }).then((res)=>{
+        for (const request of res.data) {
+          const genres = request.genres.map(obj => obj.id)
+          for (const genre of user.like_genres) {
+            if (genres.includes(genre)) {
+              recommended_movies.push(request)
+              break
+            }
+          }
+        }
+        console.log('getRecommendedMovies then')
+        console.log(recommended_movies)
+
+        // 연도 +++ 조건
+
+        context.commit('SET_RECOMMENDED_MOVIES', recommended_movies)
+
+      }).catch((err)=>{
+        console.log('getRecommendedMovies catch')
+        console.log(err)
+      })
+
+      // for (let i = 1; i <= 2; i++) {
+      //   const request = axios({
+      //     method: 'get',
+      //     url: `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page=${i}&sort_by=popularity.desc&api_key=${process.env.VUE_APP_API_KEY}`
+      //   });
+    
+      //   requests.push(request);
+      // }
+    
+      // axios.all(requests)
+      //   .then(axios.spread((...responses) => {
+      //     responses.forEach((response) => {
+      //       recommended_movies.push(...response.data.results);
+      //     });
+    
+      //     context.commit('SET_RECOMMENDED_MOVIES', recommended_movies);
+      //   }))
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     }
   },
   modules: {

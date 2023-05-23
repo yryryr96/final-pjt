@@ -11,7 +11,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from Levenshtein import distance
 
 TMDB_API_KEY = '386ea6e619bc3b5721f33392e34505c2'
 
