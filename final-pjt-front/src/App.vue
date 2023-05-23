@@ -90,7 +90,7 @@
     </v-dialog>
 
     <v-dialog v-model="showSearchResultDialog" max-width="800">
-      <v-carousel v-if="searchResults && searchResults.length > 0" hide-delimiters show-arrows v-model="currentCarouselIndex" cycle>
+      <v-carousel v-if="searchResults && searchResults.length > 0 " hide-delimiters show-arrows v-model="currentCarouselIndex" cycle>
         <v-carousel-item 
           v-for="(group, index) in groupedSearchResults"
           :key="index"
@@ -211,11 +211,12 @@ export default {
         url : `${process.env.VUE_APP_SERVER_URL}/accounts/auth/`
       }).then((res)=>{
         localStorage.removeItem('token')
+        this.$store.dispatch('logout')
+        console.log(this.$store.state.recommended_movies)
         this.$router.push({name:'LoginView'})
       }).catch((err)=>{
         console.log(err)
-      }),
-      this.$store.dispatch('logout')
+      })
     },
     clearSearch() {
       this.searchText = '';

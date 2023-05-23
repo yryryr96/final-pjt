@@ -69,6 +69,7 @@ export default {
                 localStorage.setItem('token',res.data.token.access)
                 this.$store.dispatch('setToken')
                 this.$store.dispatch('setUser',res.data)
+                this.$store.dispatch('getRecommendedMovies')
                 this.$router.push({name : 'home'})
                 console.log(res)
             }).catch((err)=>{
