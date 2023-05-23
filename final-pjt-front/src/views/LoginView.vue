@@ -75,6 +75,9 @@ export default {
                 console.log(err)
             })
         }
+    },
+    created(){
+      console.log(this.$store.state.recommend_movies)
     }
 
 }
