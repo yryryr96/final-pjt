@@ -1,8 +1,8 @@
 <template>
-  <v-app>
+  <v-app style="background-color:#FAFAFA; ">
     <v-app-bar app color="dark-grey" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>My App</v-toolbar-title>
+      <v-toolbar-title>Cinema</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon @click="openSearchDialog">
         <v-icon>mdi-magnify</v-icon>
@@ -20,22 +20,33 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app>
+      <v-toolbar flat>
+      <v-list>
+        <v-list-tile>
+          <v-list-tile-title class="title">
+            Menu
+          </v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-toolbar>
+
+    <v-divider></v-divider>
       <v-list>
         <v-list-item @click="goTo('home')">
           <v-list-item-icon>
-            <v-icon>mdi-account-plus</v-icon>
+            <v-icon>mdi-home</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Home</v-list-item-title>
         </v-list-item>
         <v-list-item v-show="this.$store.state.token===null" @click="goTo('LoginView')">
           <v-list-item-icon>
-            <v-icon>mdi-account-plus</v-icon>
+            <v-icon>mdi-login</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Login</v-list-item-title>
         </v-list-item>
          <v-list-item v-show="this.$store.state.token!==null" @click="logout">
           <v-list-item-icon>
-            <v-icon>mdi-account-plus</v-icon>
+            <v-icon>mdi-logout</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
@@ -47,13 +58,13 @@
         </v-list-item>
         <v-list-item @click="goToProfile">
           <v-list-item-icon>
-            <v-icon>mdi-newspaper</v-icon>
+            <v-icon>mdi-account</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>MyProfile</v-list-item-title>
+          <v-list-item-title>Profile</v-list-item-title>
         </v-list-item>
          <v-list-item @click="goTo('MovieView')">
           <v-list-item-icon>
-            <v-icon>mdi-account-plus</v-icon>
+            <v-icon>mdi-movie</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Movie</v-list-item-title>
         </v-list-item>
@@ -61,7 +72,7 @@
           <v-list-item-icon>
             <v-icon>mdi-newspaper</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>Article</v-list-item-title>
+          <v-list-item-title>자유게시판</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -70,12 +81,13 @@
       <router-view />
     </v-main>
 
-    <v-dialog v-model="showSearchDialog" max-width="500">
+    <v-dialog v-model="showSearchDialog" max-width="500" overlay-opacity="0.8">
       <v-card>
         <v-card-title>
           <v-text-field
             v-model="searchText"
             placeholder="Search"
+            @keyup.enter="searchMovies"
             hide-details
             solo
             dense
@@ -89,14 +101,14 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="showSearchResultDialog" max-width="800">
-      <v-carousel v-if="searchResults && searchResults.length > 0 " hide-delimiters show-arrows v-model="currentCarouselIndex" cycle>
+    <v-dialog v-model="showSearchResultDialog" overlay-opacity="0.8" max-width="1100" max-height="500">
+      <v-carousel v-if="searchResults && searchResults.length > 0 " height="350" hide-delimiters show-arrows v-model="currentCarouselIndex" >
         <v-carousel-item 
           v-for="(group, index) in groupedSearchResults"
           :key="index"
           style="text-align: center"
         >
-          <v-row justify="center" align="center">
+          <v-row justify="center" align="center" style="text-align: center;">
             <v-col
               v-for="(movie, movieIndex) in group"
               :key="movieIndex"
@@ -105,19 +117,17 @@
               md="2"
               style="padding: 8px"
             >
-              <v-card class="movie-card" :width="movieCardWidth">
+              <!-- <v-card class="movie-card" :width="movieCardWidth"> -->
                 <!-- 필요한 영화 카드 내용 표시 -->
-                <v-card-text>
-                  <img :src="getImageUrl(movie.poster_path)" class="moviePoster movie-item" @click="goDetail(movie)" />
-                </v-card-text>
-              </v-card>
+                <img :src="getImageUrl(movie.poster_path)" class="moviePoster movie-item" @click="goDetail(movie)" />
+              <!-- </v-card> -->
             </v-col>
           </v-row>
         </v-carousel-item>
       </v-carousel>
       <v-carousel v-else>
-          <h1>없어</h1>
-        </v-carousel>
+        <h1>없어</h1>
+      </v-carousel>
     </v-dialog>
   </v-app>
 </template>
@@ -139,7 +149,7 @@ export default {
   },
   computed : {
     groupedSearchResults() {
-      const groupSize = 9;
+      const groupSize = 4;
       const groups = [];
       for (let i = 0; i < this.searchResults.length; i += groupSize) {
         groups.push(this.searchResults.slice(i, i + groupSize));
@@ -181,6 +191,7 @@ export default {
       const movie_id = movie.id
       this.$router.push({name : 'MovieDetailView', params : {movie_id :movie_id}})
       this.showSearchResultDialog = false
+      this.drawer = false
       location.reload();
     },
     searchMovies() {
@@ -223,6 +234,7 @@ export default {
     },
     goTo(routeName) {
       if (this.$route.name !== routeName) {
+        this.drawer = false
         this.$router.push({ name: routeName });
       }
     },
@@ -230,6 +242,7 @@ export default {
       for (const user of this.$store.state.users) {
         if (this.$store.state.user.id == user.id) {
           this.username = user.username
+          this.drawer = false
         }
       }
       this.$router.push({name: 'ProfileView', params: {username: this.username}})
@@ -273,5 +286,10 @@ export default {
   margin-right: 16px;
   flex-shrink: 0;
   cursor:pointer;
+}
+
+.movie-item {
+  margin-top : 30px;
+  margin-right : 20px;
 }
 </style>

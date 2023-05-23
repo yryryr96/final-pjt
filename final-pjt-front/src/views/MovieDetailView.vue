@@ -1,7 +1,5 @@
 <template>
-  <div v-if="movie">
-    <h1>DetailView</h1>
-    <hr>
+  <div v-if="movie" style="margin : 50px;">
     <v-row>
       <v-col cols="12" sm="6" md="4" lg="3" class="posterColumn">
         <v-img :src="getImageUrl(movie.poster_path)" class="moviePoster"></v-img>
@@ -62,7 +60,7 @@ export default {
     },
     methods: {
         getImageUrl(posterPath){
-            const size = 'w400'
+            const size = 'w500'
             return `https://image.tmdb.org/t/p/${size}/${posterPath}`
         },
         getMovie(){

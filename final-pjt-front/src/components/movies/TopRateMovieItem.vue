@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <img :src="getImageUrl(movie.poster_path)" class="moviePoster movie-item" @click="goDetail">
-    <p>{{movie.title}}</p>
-  </div>
+    <div>
+        <img :src="getImageUrl(movie.poster_path)" class="moviePoster movie-item" @click="goDetail">
+        <p>{{movie.title}}</p>
+    </div>
+  
 </template>
 
 <script>

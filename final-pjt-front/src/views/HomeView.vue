@@ -1,10 +1,10 @@
 <template>
   <div>
+    <TopRateMovieList />
+    <PopularMovieList />
     <div v-if="recommendedMovies">
       <RecommendedMovieList :movies="recommendedMovies" />
     </div>
-    <TopRateMovieList />
-    <PopularMovieList />
   </div>
 </template>
 

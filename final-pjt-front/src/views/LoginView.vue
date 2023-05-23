@@ -19,9 +19,11 @@
                 type="password"
                 required
               ></v-text-field>
+              <div style="display:flex; justify-content:space-between">
+                <v-btn type="submit" color="yellow darken-2" class="mt-4">Login</v-btn>
+                <v-btn type="submit" color="yellow darken-2" class="mt-4" @click="gosignup">sign up</v-btn>
+              </div>
               
-              <v-btn type="submit" color="yellow darken-2" class="mt-4">Login</v-btn>
-              <v-btn type="submit" color="yellow darken-2" class="mt-4" @click="gosignup">sign up</v-btn>
             </v-form>
           </v-card-text>
         </v-card>

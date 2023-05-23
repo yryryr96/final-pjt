@@ -5,7 +5,7 @@
       hide-delimiters
       show-arrows
       v-model="currentCarouselIndex"
-      
+      height="350"
     >
       <v-carousel-item
         v-for="(group, index) in groupedRecommendedMovies"
@@ -14,7 +14,7 @@
       >
         <div class="movie-group">
           <recommended-movie-item
-            v-for="(movie, movieIndex) in groupWithRepeatedItems(group, 9)"
+            v-for="(movie, movieIndex) in groupWithRepeatedItems(group, 8)"
             :key="movieIndex"
             :movie="movie"
           />
@@ -40,7 +40,7 @@ export default {
   },
   computed: {
     groupedRecommendedMovies() {
-      const groupSize = 9;
+      const groupSize = 8;
       const groups = [];
       for (let i = 0; i < this.movies.length; i += groupSize) {
         groups.push(this.movies.slice(i, i + groupSize));
