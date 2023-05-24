@@ -1,6 +1,6 @@
 <template>
   <v-app style="background-color:#FAFAFA; font-family: 'Gowun Dodum', sans-serif;">
-    <v-app-bar style="background-color:rgba(24, 22, 22, 0.9); color:white;">
+    <v-app-bar app style="background-color:rgba(24, 22, 22, 0.9); color:white;">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" style="color:white;"></v-app-bar-nav-icon>
       <v-toolbar-title>Cinema</v-toolbar-title>
       <v-spacer></v-spacer>

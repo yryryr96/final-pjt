@@ -42,7 +42,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Article
-        fields = ('id','title', 'content','user')
+        fields = ('id','title', 'content','user','created_at')
         read_only_fields = ('user',)
 
 class ArticleDetailSerializer(serializers.ModelSerializer):

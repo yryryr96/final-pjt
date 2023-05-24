@@ -1,8 +1,12 @@
 <template>
   <v-container>
     <v-main>
-    <h1>ArticleView</h1>
-    <router-link :to="{name: 'ArticleCreateView'}">[Create Article]</router-link>
+      <div style="display:flex; justify-content:space-between">
+    <h1>자유게시판</h1>
+    <v-btn icon @click="createArticle">
+        <v-icon>mdi-pencil</v-icon>
+    </v-btn>
+    </div>
     <hr>
     <ArticleList/>
     </v-main>
@@ -22,6 +26,9 @@ export default {
     }
   },
   methods: {
+    createArticle(){
+      this.$router.push({name : 'ArticleCreateView'})
+    },
     search() {
       // 검색 기능 구현
       // 검색어: this.searchText
