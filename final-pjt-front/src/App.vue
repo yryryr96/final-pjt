@@ -83,7 +83,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
     <v-dialog v-model="showSearchResultDialog" overlay-opacity="0.8" max-width="1100" max-height="500">
       <v-carousel v-if="searchResults && searchResults.length !== 0 " height="370" hide-delimiters show-arrows v-model="currentCarouselIndex">
         <v-carousel-item 
