@@ -22,11 +22,11 @@
     <v-navigation-drawer v-model="drawer" app>
       <v-toolbar flat>
       <v-list>
-        <v-list-tile>
-          <v-list-tile-title class="title">
+        <v-list-item>
+          <v-list-item-title class="title">
             Menu
-          </v-list-tile-title>
-        </v-list-tile>
+          </v-list-item-title>
+        </v-list-item>
       </v-list>
     </v-toolbar>
 

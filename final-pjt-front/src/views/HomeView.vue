@@ -3,7 +3,7 @@
     <div class="user-wrap">
       <div class="user-image1">
       <div class="user-text1">
-        <p style="font-size:30px; color:white;">평점으로 보증된 영화, 이건 어때요?</p>
+        <p style="font-size:40px; color:white; font-weight: bold;">평점으로 보증된 영화, 이건 어때요?</p>
       </div>
       </div>
     </div>
@@ -11,7 +11,7 @@
     <div class="user-wrap">
       <div class="user-image2">
       <div class="user-text2">
-        <p style="font-size:30px; color:white;">유행을 따라가고 싶다면?</p>
+        <p style="font-size:40px; color:white; font-weight: bold;">유행을 따라가고 싶다면?</p>
       </div>
       </div>
     </div>
@@ -19,7 +19,7 @@
     <div class="user-wrap">
       <div class="user-image3">
       <div class="user-text2">
-        <p style="font-size:30px; color:white;">당신의 취향에 꼭 맞는 영화입니다.</p>
+        <p style="font-size:40px; color:white; font-weight: bold;">당신의 취향에 꼭 맞는 영화입니다.</p>
       </div>
       </div>
     </div>
