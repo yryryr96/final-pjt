@@ -1,19 +1,28 @@
-# final-pjt-front
+i. 팀원 정보 및 업무 분담 내역
+ - 정영록 : 
+ - 신세영 : 
 
-## Project setup
-```
-npm install
-```
+ii. 목표 서비스 구현 및 실제 구현 정도
+ - 회원가입 시 선호 장르 데이터 받아오기
+ - 게시판 글 수정, 삭제
+ - 게시판 글에 대한 댓글 생성, 삭제
+ - 선호 장르 데이터로 추천 영화 출력
+ - 기본적으로 인기순, 평점순 영화 제공
+ - 영화 포스터 이미지 누를 시 영화 상세 정보로 이동
+ - 영화에 대한 짧은 리뷰 작성 및 좋아요 가능
+ - 영화 좋아요 기능 -> 내 프로필 페이지에서 확인
+ - 프로필 페이지에서 내가 팔로잉 하는 사람 목록 확인 -> 닉네임을 누르면 상대방 프로필로 이동
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+iii. 데이터베이스 모델링 (ERD)
 
-### Compiles and minifies for production
-```
-npm run build
-```
+iv. 컴포넌트 구조
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+v. 영화 추천 알고리즘에 대한 기술적 설명
+ - 회원가입 시 선호 장르를 체크박스로 선택하게 함
+ - 더미 데이터 중 영화의 장르가 선호 장르랑 하나라도 일치하면 추출
+ - 추출된 영화 데이터를 평점 내림차순으로 정렬
+ - 1980년대부터 2020년대까지 각 연도별로 최대 5개씩 최종적으로 선별
+
+vi. 서비스 대표 기능에 대한 설명
+
+vii. 기타 (느낀 점, 후기 등)

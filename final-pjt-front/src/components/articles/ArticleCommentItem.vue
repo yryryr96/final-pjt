@@ -1,10 +1,18 @@
 <template>
-  <div>
-    <p>ArticleCommentItem</p>
-    <p>{{ comment.content }} - {{ username }}</p>
-    <button @click="deleteComment">[Delete]</button>
-    <hr>
+  <div class="d-flex align-center">
+  <span>{{ username }} : {{ comment.content }}</span>
+  <div class="ml-auto"> <!-- 새로운 div 추가 -->
+    <v-btn
+      color="dark-gray"
+      icon
+      @click="deleteComment"
+    >
+      <v-icon>mdi-delete</v-icon>
+    </v-btn>
   </div>
+  <hr>
+  <br>
+</div>
 </template>
 
 <script>

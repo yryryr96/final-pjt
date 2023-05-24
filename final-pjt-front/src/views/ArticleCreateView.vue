@@ -14,7 +14,6 @@
         v-model="newArticleTitle"
         label="게시글 제목 입력"
         outlined
-        placeholder="게시글 제목을 입력하세요"
         required
         dense
       ></v-text-field>
@@ -22,7 +21,6 @@
         v-model="newArticleContent"
         label="게시글 내용 입력"
         outlined
-        placeholder="게시글 내용을 입력하세요"
         required
         dense
       ></v-text-field>
@@ -40,7 +38,7 @@ export default {
     data() {
       return {
         newArticleTitle: '',
-        newArticleContent: '',
+        newArticleContent: '',   
       }
     },
     methods: {
@@ -102,5 +100,8 @@ export default {
     ),
     url("../assets/pic12.jpg");
   background-size: 100% 100%;
+}
+.focused .v-input__control {
+  border-color: red !important;
 }
 </style>

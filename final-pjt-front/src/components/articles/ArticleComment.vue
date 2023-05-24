@@ -1,22 +1,33 @@
 <template>
-  <div>
-    <h3>ArticleComment</h3>
+  <div style="margin-left:10px;">
+    <h3>댓글</h3>
+    <br>
     <ArticleCommentItem
       v-for="comment in comments"
       :key="comment.id"
       :comment="comment"
       :article_id="article_id"
     />
-    <h3>Create ArticleComment</h3>
+    <br>
+
+    <h3>새 댓글 작성</h3><br>
     <v-form @submit.prevent="addComment">
-        <v-text-field
-        v-model="newCommentContent"
-        outlined
-        placeholder="댓글 내용을 입력하세요"
-        required
-        dense
-        ></v-text-field>
-        <v-btn @click="addComment">등록</v-btn>
+      <v-container>
+        <v-row>
+          <v-col cols="12" lg="10">
+          <v-text-field
+          v-model="newCommentContent"
+          outlined
+          label="댓글 내용"
+          placeholder="댓글 내용을 입력하세요"
+          required
+          dense
+          ></v-text-field></v-col>
+          <v-col cols="12" lg="2">
+          <v-btn @click="addComment" color="rgba(255, 107, 39, 0.6)" style="font-weight:bold">등록</v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-form>
   </div>
 </template>
@@ -82,5 +93,7 @@ export default {
 </script>
 
 <style>
-
+.color{
+  background-color: rgb(rgb(255, 107, 39), green, blue);
+}
 </style>

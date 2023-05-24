@@ -7,16 +7,6 @@
       <v-btn icon @click="openSearchDialog" style="color:white;">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-      <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn v-bind="attrs" v-on="on" icon style="color:white;">
-            <v-icon>mdi-account-circle</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <!-- 프로필 및 로그아웃 메뉴 항목들 -->
-        </v-list>
-      </v-menu>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app>
@@ -56,12 +46,6 @@
             <v-icon>mdi-account-plus</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Sign up</v-list-item-title>
-        </v-list-item>
-        <v-list-item @click="goToProfile">
-          <v-list-item-icon>
-            <v-icon>mdi-account</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Profile</v-list-item-title>
         </v-list-item>
          <v-list-item @click="goTo('MovieView')">
           <v-list-item-icon>
