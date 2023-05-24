@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <h1>추천순</h1> -->
     <v-carousel
       hide-delimiters
       show-arrows
@@ -43,9 +42,17 @@ export default {
     groupedRecommendedMovies() {
       const groupSize = 8;
       const groups = [];
-      for (let i = 0; i < this.movies.length; i += groupSize) {
-        groups.push(this.movies.slice(i, i + groupSize));
+      const totalItems = this.movies.length;
+
+      for (let i = 0; i < totalItems; i += groupSize) {
+        const group = this.movies.slice(i, i + groupSize);
+        if (group.length < groupSize) {
+          const remainingItems = groupSize - group.length;
+          group.push(...this.movies.slice(0, remainingItems));
+        }
+        groups.push(group);
       }
+
       return groups;
     },
   },
@@ -57,7 +64,6 @@ export default {
     if (savedCarouselIndex !== null) {
       this.currentCarouselIndex = parseInt(savedCarouselIndex);
     }
-
   },
   beforeDestroy() {
     sessionStorage.setItem('carouselIndex', this.currentCarouselIndex.toString());
@@ -90,5 +96,4 @@ export default {
   width: 200px; /* 아이템의 너비 조정 */
   margin: 0 10px; /* 아이템들간의 간격 조정 */
 }
-
 </style>

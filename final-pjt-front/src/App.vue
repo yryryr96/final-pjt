@@ -87,11 +87,12 @@
     </v-dialog>
 
     <v-dialog v-model="showSearchResultDialog" overlay-opacity="0.8" max-width="1100" max-height="500">
-      <v-carousel v-if="searchResults && searchResults.length > 0 " height="350" hide-delimiters show-arrows v-model="currentCarouselIndex" >
+      <v-carousel v-if="searchResults && searchResults.length !== 0 " height="370" hide-delimiters show-arrows v-model="currentCarouselIndex">
         <v-carousel-item 
           v-for="(group, index) in groupedSearchResults"
           :key="index"
-          style="text-align: center"
+          style="background-color:rgba(207, 207, 207, 0.8)"
+          
         >
           <v-row justify="center" align="center" style="text-align: center;">
             <v-col
@@ -110,9 +111,7 @@
           </v-row>
         </v-carousel-item>
       </v-carousel>
-      <v-carousel v-else>
-        <h1>없어</h1>
-      </v-carousel>
+      
     </v-dialog>
   </v-app>
 </template>
