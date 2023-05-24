@@ -9,12 +9,12 @@
       </v-btn>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" app>
-      <v-toolbar v-if="this.$store.state.user" flat style="padding: 0">
-        <v-icon>mdi-account</v-icon>
-        <v-toolbar-title style="cursor:pointer" @click="goToProfile" class="ml-4">{{ this.$store.state.user.username }}의 프로필</v-toolbar-title>
+    <v-navigation-drawer v-model="drawer" app style="background-color:rgba(126, 119, 119, 0.2);">
+      <v-toolbar v-if="this.$store.state.user" flat style="padding: 0; background-color:rgba(24, 22, 22, 0.8);">
+        <v-icon icon style="color:white;">mdi-account</v-icon>
+        <v-toolbar-title style="cursor:pointer; color:white;" @click="goToProfile" class="ml-4">{{ this.$store.state.user.username }}의 프로필</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon>
+        <v-btn icon style="color:white;">
           <v-icon @click="drawer=!drawer">mdi-close</v-icon>
         </v-btn>
     </v-toolbar>
@@ -65,7 +65,7 @@
     </v-main>
 
     <v-dialog v-model="showSearchDialog" max-width="500" overlay-opacity="0.8">
-      <v-card>
+      <v-card style="text-align:center;">
         <v-card-title>
           <v-text-field
             v-model="searchText"
@@ -76,6 +76,7 @@
             dense
           ></v-text-field>
         </v-card-title>
+        <p v-if="!searchTextstate" style="color:red;">입력 정보를 확인해주세요.</p>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn @click='searchMovies'>Search</v-btn>
@@ -110,7 +111,9 @@
           </v-row>
         </v-carousel-item>
       </v-carousel>
-      
+      <div v-else style="text-align: center; background-color:rgba(207, 207, 207, 0.8); height: 50px;">
+        <p style=" line-height: 50px;">검색 결과가 없습니다.</p>
+      </div>
     </v-dialog>
   </v-app>
 </template>
@@ -127,7 +130,8 @@ export default {
       showSearchDialog: false,
       showSearchResultDialog: false,
       searchResults: [],
-      currentCarouselIndex: 0
+      currentCarouselIndex: 0,
+      searchTextstate:true,
     }
   },
   computed : {
@@ -178,6 +182,10 @@ export default {
       location.reload();
     },
     searchMovies() {
+      if (this.searchText === '') {
+        this.searchTextstate=false;
+      } else {
+        this.searchTextstate=true;
       axios({
         method: 'get',
         url: `${process.env.VUE_APP_SERVER_URL}/movies/search/?q=${this.searchText}`,
@@ -194,6 +202,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      }
     },
     closeSearchResultDialog() {
       this.showSearchResultDialog = false;

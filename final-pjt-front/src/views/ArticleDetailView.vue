@@ -38,6 +38,7 @@
           icon
           style="margin-left: 13px;"
           @click="deleteArticle"
+          v-if="article?.user == this.$store.state.user.username"
         >
           <v-icon>mdi-delete</v-icon>
         </v-btn>
@@ -46,6 +47,7 @@
             icon
             style="margin-left: 13px;"
             @click="goToUpdate"
+            v-if="article?.user === this.$store.state.user.username"
         >
             <v-icon>mdi-pencil</v-icon>
         </v-btn>
@@ -73,7 +75,6 @@
         </v-col>
         </v-row>
         </v-container>
-        </div>
 
     </div>
 </template>

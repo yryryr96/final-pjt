@@ -29,6 +29,7 @@
           icon
           style="margin-left: 13px;"
           @click="deleteReview"
+          v-if="review.user === this.$store.state.user.username"
         >
           <v-icon>mdi-delete</v-icon>
         </v-btn>

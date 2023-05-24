@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-row class="signup-image" justify="center" style="height:90vh; width:100vw;" align="center">
+    <v-row class="signup-image" justify="center" style="height:100%; width:auto;" align="center">
       <v-col cols="12" sm="8" md="6">
       <!-- <v-card class="elevation-12">
         <v-card-title class="grey-dark"> -->
@@ -49,7 +49,7 @@
                 ></v-checkbox>
               </v-col>
             </v-row>
-            <v-btn type="submit" color="yellow darken-2" class="mt-4" :disabled="!hasSelectedGenres">Sign Up</v-btn>
+            <v-btn type="submit" color="yellow darken-2" class="mt-4" style="width:100%;" :disabled="!hasSelectedGenres">Sign Up</v-btn>
           </v-form>
         <!-- </v-card-text>
       </v-card> -->
@@ -90,12 +90,29 @@ export default {
         url: `${process.env.VUE_APP_SERVER_URL}/accounts/register/`,
         data: this.userinfo
       }).then((res) => {
-        console.log(res)
-        console.log('signup then')
-        console.log(this.userinfo)
-        // const token = res.data.token.access
-        // localStorage.setItem('token', token)
-        this.$router.push({name:'LoginView'})
+        // console.log(res)
+        // console.log('signup then')
+        // console.log(this.userinfo)
+        // // const token = res.data.token.access
+        // // localStorage.setItem('token', token)
+        // this.$router.push({name:'LoginView'})
+
+        axios({
+              method : 'post',
+              url : `${process.env.VUE_APP_SERVER_URL}/accounts/auth/`,
+              data : {
+                  login_id : this.userinfo.login_id,
+                  password : this.userinfo.password
+              }
+          }).then((res2)=>{
+            localStorage.setItem('token',res2.data.token.access)
+            this.$store.dispatch('setToken')
+            this.$store.dispatch('setUser',res2.data)
+            this.$store.dispatch('getRecommendedMovies')
+            this.$router.push({name : 'home'})
+          }).catch((err2)=>{
+            console.log(err2)
+          })
       }).catch((err) => {
         console.log('signup error')
         console.log(this.userinfo)

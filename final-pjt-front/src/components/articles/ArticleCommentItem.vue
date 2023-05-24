@@ -1,11 +1,12 @@
 <template>
-  <div class="d-flex align-center">
+  <div class="d-flex align-center" style="height: 36px;">
   <span>{{ username }} : {{ comment.content }}</span>
   <div class="ml-auto"> <!-- 새로운 div 추가 -->
     <v-btn
       color="dark-gray"
       icon
       @click="deleteComment"
+      v-show="username == this.$store.state.user.username"
     >
       <v-icon>mdi-delete</v-icon>
     </v-btn>
