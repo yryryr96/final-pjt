@@ -1,16 +1,22 @@
 <template>
   <div>
-    <h1>{{user.username}}'s Profile</h1>
-    <p>팔로잉 : {{ user.followings.length }}</p>
-    <p>팔로워 : {{ user.followers_count }}</p>
+    <div class="user-wrap">
+      <div class="user-image1">
+      <div class="user-text1">
+        <p style="font-size:40px; color:white; font-weight: bold;">{{user.username}}님의 플레이리스트</p>
+        <p style="font-weight: 700; color:rgba(40,40,40,0.8)">팔로잉 : {{ user.followings.length }} / 팔로워 : {{ user.followers_count }}</p>
+        <v-btn @click="follow" color="rgba(250,250,250,0.7)" style="font-weight: 700; margin-right: 20px;">Follow</v-btn>
+        <v-btn
+        color="rgba(250,250,250,0.7)"
+        style="font-weight: 700;"
+        @click="dialog = true"
+        >팔로잉 목록보기</v-btn>
+      </div>
+      </div>
+    </div>
+    
     
     <div class="text-center">
-    <v-btn
-      color="primary"
-      @click="dialog = true"
-    >
-      팔로잉 목록보기
-    </v-btn>
     <v-dialog
       v-model="dialog"
       width="auto"
@@ -28,14 +34,12 @@
             <p>팔로잉한 사람이 없습니다.</p>
         </div>
         <v-card-actions>
-          <v-btn color="primary" block @click="dialog = false">목록 닫기</v-btn>
+          <v-btn color="rgba(40,40,40,0.3)" block @click="dialog = false" style="font-weight: 700;">목록 닫기</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     </div>
 
-    <button @click="follow">[Follow]</button>
-    <hr>
     <!-- <h3>{{this.$route.params.username}}'s MoviePlaylist</h3> -->
     <PlayListView :username="user.username" :user="user" />
   </div>
@@ -136,5 +140,36 @@ export default {
 </script>
 
 <style>
-
+.user-wrap {
+  width: 100%;
+  margin: 0px auto;
+  position: relative;
+}
+.user-text1 {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.user-image1 {
+  width: 100%;
+  height: 400px;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(250,250,250,0) 50%,
+    rgba(250,250,250,0.1) 55%,
+    rgba(250,250,250,0.2) 60%,
+    rgba(250,250,250,0.3) 65%,
+    rgba(250,250,250,0.4) 70%,
+    rgba(250,250,250,0.5) 75%,
+    rgba(250,250,250,0.6) 80%,
+    rgba(250,250,250,0.7) 85%,
+    rgba(250,250,250,0.8) 90%,
+    rgba(250,250,250,1) 100%
+    ),
+    url("../assets/pic08.jpg");
+  background-size: cover;
+}
 </style>

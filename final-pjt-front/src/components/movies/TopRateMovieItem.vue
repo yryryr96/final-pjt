@@ -1,7 +1,7 @@
 <template>
     <div>
-        <img :src="getImageUrl(movie.poster_path)" class="moviePoster movie-item" @click="goDetail">
-        <p>{{movie.title}}</p>
+        <img :src="getImageUrl(movie.poster_path)" class="moviePoster movie-item movie-item-style" @click="goDetail">
+        <!-- <p>{{movie.title}}</p> -->
     </div>
   
 </template>
@@ -26,5 +26,10 @@ export default {
 </script>
 
 <style scope>
-
+.movie-item-style {
+    width:200px;
+    height:300px;
+    border:2px solid rgba(126, 119, 119, 0.5); 
+    border-radius: 10px 10px 10px 10px;
+}
 </style>

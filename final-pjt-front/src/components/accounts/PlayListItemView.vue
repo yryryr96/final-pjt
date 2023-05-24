@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>{{ movie?.title }}</h1>
-    <v-card>
-      <v-img :src="getImageUrl(movie?.poster_path)" class="moviePoster" height="300" @click="goDetail"></v-img>
-      <v-card-text>
-        <p>{{ movie?.title }}</p>
-      </v-card-text>
+    <!-- <h1>{{ movie?.title }}</h1> -->
+    <v-card style="text-align:center;">
+      <v-img :src="getImageUrl(movie?.poster_path)" class="moviePoster" width="100%" height="300" @click="goDetail"></v-img>
+      <v-card-title class="text-center">
+        <p style="font-weight:700;">{{ movie?.title }}</p>
+      </v-card-title>
     </v-card>
   </div>
 </template>
@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
 .moviePoster {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   cursor : pointer;
 }
 </style>

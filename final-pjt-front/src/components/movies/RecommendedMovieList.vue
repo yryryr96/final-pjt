@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>추천순</h1>
+    <!-- <h1>추천순</h1> -->
     <v-carousel
       hide-delimiters
       show-arrows

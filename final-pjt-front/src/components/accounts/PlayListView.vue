@@ -1,18 +1,18 @@
 <template>
-  <div>
-    <h1>{{ username }}'s PlayList</h1>
+  <div style="margin: 10px 20px">
+    <!-- <h1>{{ username }}'s PlayList</h1> -->
     <v-carousel
       class="carousel-container"
       hide-delimiters
       show-arrows
-      :items-per-page="8"
+      :items-per-page="4"
     >
       <v-carousel-item>
         <v-row>
           <v-col
             v-for="list in lists"
             :key="list.id"
-            cols="2" 
+            cols="3" 
           >
             <PlayListItemView :list="list" />
           </v-col>
@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     groupedMovies() {
-      const groupSize = 5;
+      const groupSize = 4;
       const groups = [];
       for (let i = 0; i < this.lists.length; i += groupSize) {
         groups.push(this.lists.slice(i, i + groupSize));

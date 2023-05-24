@@ -1,15 +1,15 @@
 <template>
-  <v-app style="background-color:#FAFAFA; ">
-    <v-app-bar app color="dark-grey" dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+  <v-app style="background-color:#FAFAFA; font-family: 'Gowun Dodum', sans-serif;">
+    <v-app-bar style="background-color:rgba(24, 22, 22, 0.9); color:white;">
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" style="color:white;"></v-app-bar-nav-icon>
       <v-toolbar-title>Cinema</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon @click="openSearchDialog">
+      <v-btn icon @click="openSearchDialog" style="color:white;">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn v-bind="attrs" v-on="on" icon>
+          <v-btn v-bind="attrs" v-on="on" icon style="color:white;">
             <v-icon>mdi-account-circle</v-icon>
           </v-btn>
         </template>
@@ -292,4 +292,11 @@ export default {
   margin-top : 30px;
   margin-right : 20px;
 }
+.d {
+  background-color: rgb(rgb(24, 22, 22), green, blue)
+}
+</style>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
 </style>

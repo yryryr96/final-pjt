@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>평점순</h1>
+    <!-- <h1>평점순</h1> -->
     <v-carousel
       hide-delimiters
       show-arrows
