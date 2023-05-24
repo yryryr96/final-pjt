@@ -7,7 +7,7 @@
       </div>
       </div>
     </div>
-    <v-main>
+    <v-main style="padding:0;">
       <v-container>
         <button style="display:flex;" @click="createArticle">
         <v-btn icon>

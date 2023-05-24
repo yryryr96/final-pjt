@@ -10,10 +10,10 @@
 
     <div style="margin : 50px;">
     <v-row>
-      <v-col cols="12" sm="6" md="4" lg="3" class="posterColumn">
+      <v-col cols="12" sm="6" md="4" lg="4" class="posterColumn">
         <v-img :src="getImageUrl(movie.poster_path)" class="moviePoster"></v-img>
       </v-col>
-      <v-col cols="12" sm="6" md="8" lg="9" class="infoColumn">
+      <v-col cols="12" sm="6" md="8" lg="8" class="infoColumn">
         <p class="movietitle" style="font-weight: 900;">{{ movie?.title }}
           <v-btn
             v-if="!this.$store.state.user.like_movies.includes(movie?.id)"

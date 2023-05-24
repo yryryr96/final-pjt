@@ -10,16 +10,14 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app>
-      <v-toolbar v-if="this.$store.state.user" class="menu-top" flat>
-        <v-list >
-          <v-list-item>          
-            <v-list-item-title class="title" @click="goToProfile" style="cursor : pointer">
-              {{this.$store.state.user.username}}'s profile
-            </v-list-item-title>
-            <v-icon>mdi-close</v-icon>
-          </v-list-item>
-        </v-list>
-      </v-toolbar>
+      <v-toolbar v-if="this.$store.state.user" flat style="padding: 0">
+        <v-icon>mdi-account</v-icon>
+        <v-toolbar-title style="cursor:pointer" @click="goToProfile" class="ml-4">{{ this.$store.state.user.username }}의 프로필</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn icon>
+          <v-icon @click="drawer=!drawer">mdi-close</v-icon>
+        </v-btn>
+    </v-toolbar>
 
     <v-divider></v-divider>
       <v-list>
@@ -80,8 +78,8 @@
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text color="primary" @click='searchMovies'>Search</v-btn>
-          <v-btn text color="primary" @click="closeSearchDialog">Close</v-btn>
+          <v-btn @click='searchMovies'>Search</v-btn>
+          <v-btn @click="closeSearchDialog">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -101,7 +99,8 @@
               cols="4"
               sm="3"
               md="2"
-              style="padding: 8px"
+              style="padding: 8px; margin:0 15px;"
+
             >
               <!-- <v-card class="movie-card" :width="movieCardWidth"> -->
                 <!-- 필요한 영화 카드 내용 표시 -->
@@ -276,6 +275,8 @@ export default {
 .movie-item {
   margin-top : 30px;
   margin-right : 20px;
+  border:2px solid rgba(126, 119, 119, 0.5); 
+  border-radius: 10px 10px 10px 10px;
 }
 
 

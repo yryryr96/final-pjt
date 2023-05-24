@@ -1,13 +1,8 @@
 <template>
   <div>
-    <!-- <h1>{{ movie?.title }}</h1> -->
-    <v-card style="text-align:center;">
-      <v-img :src="getImageUrl(movie?.poster_path)" class="moviePoster" width="100%" height="300" @click="goDetail"></v-img>
-      <v-card-title class="text-center">
-        <p style="font-weight:700;">{{ movie?.title }}</p>
-      </v-card-title>
-    </v-card>
-  </div>
+        <img :src="getImageUrl(movie?.poster_path)" class="moviePoster movie-item movie-item-style" @click="goDetail">
+        <!-- <p>{{movie.title}}</p> -->
+    </div>
 </template>
 
 <script>
@@ -15,31 +10,33 @@ import axios from 'axios'
 
 export default {
   name: 'PlayListItemView',
-  data() {
-    return {
-      movie: null,
+  data(){
+    return{
+      movie : null
     }
   },
   props: {
-    list: Number,
+    movie_id:Number
   },
   methods: {
     goDetail(){
-        this.$router.push({name:'MovieDetailView',params : {movie_id : this.movie.id}})
+        this.$router.push({name:'MovieDetailView',params : {movie_id : this.movie_id}})
     },
     getMovie() {
-      axios({
-        method: 'get',
-        url: `${process.env.VUE_APP_SERVER_URL}/movies/${this.list}/`,
-        headers: {
-          Authorization: `Bearer ${this.$store.state.token}`
+      if(this.movie_id !== null){
+        axios({
+          method: 'get',
+          url: `${process.env.VUE_APP_SERVER_URL}/movies/${this.movie_id}/`,
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`
         }
-      }).then((res) => {
-        console.log(res)
-        this.movie = res.data
-      }).catch((err) => {
-        console.log(err)
-      })
+        }).then((res) => {
+          this.movie = res.data
+        }).catch((err) => {
+          console.log(err)
+        })
+      }
+      
     },
     getImageUrl(posterPath) {
       const size = 'w200'
@@ -53,8 +50,10 @@ export default {
 </script>
 
 <style scoped>
-.moviePoster {
-  margin-bottom: 15px;
-  cursor : pointer;
+.movie-item-style {
+    width:200px;
+    height:300px;
+    border:2px solid rgba(126, 119, 119, 0.5); 
+    border-radius: 10px 10px 10px 10px;
 }
 </style>

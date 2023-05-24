@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h5>FollowingListItemView</h5>
-    <p @click="goToProfile">{{ this.followingInfo?.username}}</p>
+    <h3 @click="goToProfile">{{ this.followingInfo?.username}}</h3>
   </div>
 </template>
 

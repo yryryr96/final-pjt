@@ -76,15 +76,4 @@ export default {
   display: flex;
   justify-content: center;
 }
-
-.custom-carousel .v-carousel-item {
-  display: flex;
-  justify-content: center;
-}
-
-.carousel-item {
-  display: inline-block;
-  width: 200px; /* 아이템의 너비 조정 */
-  margin: 0 10px; /* 아이템들간의 간격 조정 */
-}
 </style>

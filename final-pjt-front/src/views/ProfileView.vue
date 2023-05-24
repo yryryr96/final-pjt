@@ -5,39 +5,52 @@
       <div class="user-text1">
         <p style="font-size:40px; color:white; font-weight: bold;">{{user.username}}님의 플레이리스트</p>
         <p style="font-weight: 700; color:rgba(40,40,40,0.8)">팔로잉 : {{ user.followings.length }} / 팔로워 : {{ user.followers_count }}</p>
-        <v-btn @click="follow" color="rgba(250,250,250,0.7)" style="font-weight: 700; margin-right: 20px;">Follow</v-btn>
+        <v-btn v-if="this.$store.state.user.id!==user.id && loginUser.followings.includes(user.id)" @click="follow" color="rgba(250,250,250,0.7)" style="font-weight: 700; margin-right: 20px;">Unfollow</v-btn>
+        <v-btn v-if="this.$store.state.user.id!==user.id && !loginUser.followings.includes(user.id)" @click="follow" color="rgba(250,250,250,0.7)" style="font-weight: 700; margin-right: 20px;">Follow</v-btn>
         <v-btn
         color="rgba(250,250,250,0.7)"
         style="font-weight: 700;"
         @click="dialog = true"
+        v-if="user.id===this.$store.state.user.id"
         >팔로잉 목록보기</v-btn>
       </div>
       </div>
     </div>
     
     
-    <div class="text-center">
-    <v-dialog
-      v-model="dialog"
-      width="auto"
-    >
-      <v-card>
-        <div v-if="followings && followings.length > 0">
-            <FollowingListItemView
-            v-for="following in followings"
-            :key="following.id"
-            :following="following"
-            @goToProfile="goToProfile2(following)"
-            />    
-        </div>
-        <div v-else>
-            <p>팔로잉한 사람이 없습니다.</p>
-        </div>
-        <v-card-actions>
-          <v-btn color="rgba(40,40,40,0.3)" block @click="dialog = false" style="font-weight: 700;">목록 닫기</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+        <div class="text-center">
+        <v-dialog v-model="dialog" width="auto">
+        <v-card>
+            <v-card-title>
+            <h2>팔로잉 목록</h2>
+            </v-card-title>
+            <hr>
+            <v-card-text>
+            <div v-if="followings && followings.length > 0">
+                
+                <FollowingListItemView
+                v-for="following in followings"
+                :key="following.id"
+                :following="following"
+                @goToProfile="goToProfile2(following)"
+                style="margin:15px 0; cursor:pointer;"
+                />    
+  
+            </div>
+            <div v-else>
+                <h3 style="margin-top:12px;">팔로잉한 사람이 없습니다.</h3>
+            </div>
+            </v-card-text>
+            <v-btn
+                
+                block
+                @click="dialog = false"
+                style="font-weight: 700;"
+            >
+                닫기
+            </v-btn>
+        </v-card>
+        </v-dialog>
     </div>
 
     <!-- <h3>{{this.$route.params.username}}'s MoviePlaylist</h3> -->
@@ -61,6 +74,7 @@ export default {
             user: [],
             dialog: false,
             followings: [],
+            loginUser : this.$store.state.user
         }
     },
     methods: {
@@ -74,6 +88,7 @@ export default {
             console.log(this.user)
         },
         follow() {
+            console.log(this.$store.state.user.followings.includes(this.user.id))
             axios({
                 method: 'post',
                 url: `${process.env.VUE_APP_SERVER_URL}/accounts/${this.user.id}/follow/`,
@@ -82,11 +97,14 @@ export default {
                 }
             }).then((res)=>{
                 console.log(res)
+                console.log(this.$store.state.user)
                 this.getUserDetail()
+                this.getLoginUser()
             }).catch((res)=>{
                 console.log(res)
             })
         },
+        
         getUserDetail() {
             axios({
                 method: 'get',
@@ -129,9 +147,24 @@ export default {
             }
             this.$router.push({name: 'ProfileView', params: {username: username1}})
             location.reload();
+        },
+        getLoginUser(){
+            axios({
+                method : 'get',
+                url : `${process.env.VUE_APP_SERVER_URL}/accounts/profile/${this.$store.state.user.id}/`,
+                headers : {
+                    Authorization : `Bearer ${this.$store.state.token}`
+                }
+            }).then((res)=>{
+                this.loginUser = res.data
+                // this.$store.dispatch('setUser',res.data)
+            }).catch((err)=>{
+                console.log(err)
+            })
         }
     },
     created() {
+        this.getLoginUser()
         this.getUser()
         this.getUserDetail()
         this.getFollowings()
