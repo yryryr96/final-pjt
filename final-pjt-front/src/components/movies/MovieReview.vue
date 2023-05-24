@@ -1,20 +1,21 @@
 cdf <template>
   <div>
-    <h3>MovieReview</h3>
-    <hr>
+    <div class="leftborder">
+    <h3>리뷰</h3></div>
     <MovieReviewItem
       v-for="review in displayedReviews"
       :key="review.id"
       :review="review"
       :movie_id="movie_id"
     />
-
+    <br>
     <v-pagination
       v-model="currentPage"
       :total-visible="5" 
       :length="totalPages" 
       :disabled="loading" 
-      @input="fetchReviews" 
+      @input="fetchReviews"
+      color="rgba(57, 122, 175, 0.5)"
     />
 
     <v-form @submit.prevent="addReview">
@@ -33,7 +34,7 @@ cdf <template>
             ></v-text-field>
           </v-col>
           <v-col cols="12" sm="4">
-            <v-btn color="primary" @click="addReview" class="review-button">등록</v-btn>
+            <v-btn color="rgba(57, 122, 175, 0.8)" style="color:white; font-weight: bold;" @click="addReview" class="review-button">등록</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -144,5 +145,13 @@ export default {
 
 .review-button {
   height: 40px;
+}
+
+.color{
+  background-color: rgb(rgb(57, 122, 175), green, blue)
+}
+.leftborder {
+  border-left: 5px solid rgba(40,40,40,0.5);
+  padding-left: 10px;
 }
 </style>

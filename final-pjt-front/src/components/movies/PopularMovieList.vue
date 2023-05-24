@@ -17,6 +17,7 @@
             v-for="(movie, movieIndex) in groupWithRepeatedItems(group, 8)"
             :key="movieIndex"
             :movie="movie"
+            style="margin-right:10px;"
           />
         </div>
       </v-carousel-item>
@@ -77,10 +78,18 @@ export default {
 <style scoped>
 .movie-group {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
 }
 
+.custom-carousel .v-carousel-item {
+  display: flex;
+  justify-content: center;
+}
 
+.carousel-item {
+  display: inline-block;
+  width: 200px; /* 아이템의 너비 조정 */
+  margin: 0 10px; /* 아이템들간의 간격 조정 */
+}
 
 </style>

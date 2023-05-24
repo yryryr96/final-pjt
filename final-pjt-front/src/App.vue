@@ -2,7 +2,7 @@
   <v-app style="background-color:#FAFAFA; font-family: 'Gowun Dodum', sans-serif;">
     <v-app-bar app style="background-color:rgba(24, 22, 22, 0.9); color:white;">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" style="color:white;"></v-app-bar-nav-icon>
-      <v-toolbar-title>Cinema</v-toolbar-title>
+      <v-toolbar-title @click="goTo('home')" style="cursor:pointer">Cinema</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon @click="openSearchDialog" style="color:white;">
         <v-icon>mdi-magnify</v-icon>
@@ -20,15 +20,16 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" app>
-      <v-toolbar flat>
-      <v-list>
-        <v-list-item>
-          <v-list-item-title class="title">
-            Menu
-          </v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-toolbar>
+      <v-toolbar v-if="this.$store.state.user" class="menu-top" flat>
+        <v-list >
+          <v-list-item>          
+            <v-list-item-title class="title" @click="goToProfile" style="cursor : pointer">
+              {{this.$store.state.user.username}}'s profile
+            </v-list-item-title>
+            <v-icon>mdi-close</v-icon>
+          </v-list-item>
+        </v-list>
+      </v-toolbar>
 
     <v-divider></v-divider>
       <v-list>
@@ -270,6 +271,7 @@ export default {
     },
   },
   created() {
+    this.drawer = false
     this.$store.dispatch('setToken')
     this.$store.dispatch('getMovies')
     this.$store.dispatch('getArticles')
@@ -292,8 +294,12 @@ export default {
   margin-top : 30px;
   margin-right : 20px;
 }
-.d {
-  background-color: rgb(rgb(24, 22, 22), green, blue)
+
+
+.menu-top {
+  display : flex;
+  justify-content: space-between;
+
 }
 </style>
 

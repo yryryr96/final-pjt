@@ -1,16 +1,24 @@
 <template>
-  <v-container>
-    <v-main>
-      <div style="display:flex; justify-content:space-between">
-    <h1>자유게시판</h1>
-    <v-btn icon @click="createArticle">
-        <v-icon>mdi-pencil</v-icon>
-    </v-btn>
+  <div>
+    <div class="user-wrap">
+      <div class="user-image1">
+      <div class="user-text1">
+        <p style="font-size:40px; color:white; font-weight: bold;">자유게시판</p>
+      </div>
+      </div>
     </div>
-    <hr>
-    <ArticleList/>
+    <v-main>
+      <v-container>
+        <button style="display:flex;" @click="createArticle">
+        <v-btn icon>
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+        <p style="line-height:35px; font-weight: bold; font-size: 20px; color:rgba(40,40,40,0.8)">새 글 작성</p>
+        </button>
+      <ArticleList/>
+      </v-container>
     </v-main>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -39,11 +47,44 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .v-input__prepend-inner {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 48px;
+}
+.user-wrap {
+  width: 100%;
+  margin: 0px auto;
+  position: relative;
+}
+.user-text1 {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-weight: bold;
+}
+.user-image1 {
+  width: 100%;
+  height: 400px;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(250,250,250,0) 40%,
+    rgba(250,250,250,0.1) 50%,
+    rgba(250,250,250,0.2) 60%,
+    rgba(250,250,250,0.3) 65%,
+    rgba(250,250,250,0.4) 70%,
+    rgba(250,250,250,0.5) 75%,
+    rgba(250,250,250,0.6) 80%,
+    rgba(250,250,250,0.7) 85%,
+    rgba(250,250,250,0.8) 90%,
+    rgba(250,250,250,1) 100%
+    ),
+    url("../assets/pic12.jpg");
+  background-size: 100% 100%;
 }
 </style>

@@ -17,6 +17,7 @@
             v-for="(movie, movieIndex) in groupWithRepeatedItems(group, 8)"
             :key="movieIndex"
             :movie="movie"
+            style="margin-right:10px;"
           />
         </div>
       </v-carousel-item>

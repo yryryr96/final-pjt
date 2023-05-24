@@ -2,14 +2,14 @@
   <div>
     <v-row>
       <v-col cols="10">
-        <p>{{ review.content }}</p>
-        <p>작성자: {{ review.user }} Like: {{ review.like_users_count }}</p>
+        <br>
+        <p>{{review.user}} : {{ review.content }}</p>
         
       </v-col>
       <v-col cols="2" class="d-flex justify-end align-center">
         <v-btn
           v-if="!review.like_users.includes(this.$store.state.user.id)"
-          color="primary"
+          color="rgba(255, 0, 98, 0.7)"
           icon
           @click="likeReview"
         >
@@ -17,15 +17,17 @@
         </v-btn>
         <v-btn
           v-else
-          color="primary"
+          color="rgba(255, 0, 98, 0.7)"
           icon
           @click="likeReview"
         >
           <v-icon>mdi-heart</v-icon>
         </v-btn>
+        <span>{{ review.like_users_count }}</span>
         <v-btn
-          color="error"
+          color="dark-gray"
           icon
+          style="margin-left: 13px;"
           @click="deleteReview"
         >
           <v-icon>mdi-delete</v-icon>

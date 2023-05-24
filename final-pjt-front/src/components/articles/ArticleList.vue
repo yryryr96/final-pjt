@@ -13,11 +13,12 @@
         :key="article.id"
         :article="article"
       />
-    </div>
+    </div><br>
     <v-pagination
       v-model="currentPage"
       :length="Math.ceil(totalArticles / itemsPerPage)"
       @input="changePage"
+      color="rgba(204, 105, 146, 0.8)"
     ></v-pagination>
   </div>
 </template>
@@ -74,8 +75,13 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 .text {
   text-align: center;
+  font-weight: 700;
+}
+div hr {
+  border: none;
+  border-top: 3px solid rgba(40,40,40,0.5);
 }
 </style>
