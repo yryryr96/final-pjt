@@ -46,6 +46,12 @@ export default {
       return this.$store.getters.getRecommendedMovies
     }
   },
+  created(){
+    
+    if (this.$store.state.user===null){
+      this.$router.push({name:"LoginView"})
+    }
+  }
 }
 </script>
 

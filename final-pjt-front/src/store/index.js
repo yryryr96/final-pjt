@@ -57,6 +57,9 @@ export default new Vuex.Store({
     LOGOUT(state){
       state.token = null
       state.recommended_movies = null
+      state.user = null
+      console.log('move')
+      
     }
   },
   actions: {
