@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <div class="user-wrap">
       <div class="user-image1">
       <div class="user-text1">
@@ -46,6 +46,11 @@ export default {
       return this.$store.getters.getRecommendedMovies
     }
   },
+  created(){
+    if(this.$store.state.user===null){
+      this.$router.push({name:'LoginView'})
+    }
+  }
 }
 </script>
 

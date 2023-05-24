@@ -26,6 +26,7 @@
         required
         dense
       ></v-text-field>
+      <p v-if="!check" style="color:red">입력 형식을 확인해주세요.</p>
       <v-btn @click="addArticle" color="rgba(204, 105, 146, 0.8)" style="color:white; font-weight:bold;">등록</v-btn>
     </v-form>
     </v-container>
@@ -39,6 +40,7 @@ export default {
     name: 'ArticleCreateView',
     data() {
       return {
+        check : true,
         newArticleTitle: '',
         newArticleContent: '',
       }
@@ -63,6 +65,8 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+          this.check = false;
+
         });
       },
     }

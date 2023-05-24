@@ -1,48 +1,58 @@
 <template>
   <v-container fluid>
-    <v-row justify="center">
+    <v-row class="signup-image" justify="center" style="height:90vh; width:100vw;" align="center">
       <v-col cols="12" sm="8" md="6">
-        <v-card class="elevation-12">
-          <v-card-title class="grey-dark">
-            <h1 class="white--text">SignUp</h1>
-          </v-card-title>
-          <v-card-text>
-            <v-form @submit.prevent="signup" @keyup.enter.prevent>
-              <v-text-field
-                v-model="userinfo.login_id"
-                label="ID"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="userinfo.username"
-                label="Username"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="userinfo.password"
-                label="Password"
-                type="password"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="userinfo.confirmpassword"
-                label="Confirm Password"
-                type="password"
-                required
-              ></v-text-field>
-              <p>#####</p>
-              <v-text-field
-                type="checkbox"
+      <!-- <v-card class="elevation-12">
+        <v-card-title class="grey-dark"> -->
+        <h1 class="white--text" style="font-size:50px; color:black !important;">SignUp</h1>
+        <!-- </v-card-title> -->
+        <!-- <v-card-text> -->
+          <v-form @submit.prevent="signup">
+            <v-text-field
+              v-model="userinfo.login_id"
+              label="ID"
+              required
+            ></v-text-field>
+            <v-text-field
+              v-model="userinfo.username"
+              label="Username"
+              required
+            ></v-text-field>
+            <v-text-field
+              v-model="userinfo.password"
+              label="Password"
+              type="password"
+              required
+            ></v-text-field>
+            <v-text-field
+              v-model="userinfo.confirmpassword"
+              label="Confirm Password"
+              type="password"
+              required
+            ></v-text-field>
+            <p v-if="!state" style="color:red">입력 정보를 다시 확인해주세요.</p>
+            <h3 style="margin-bottom:10px; color:">영화 추천을 위해 선호하는 장르를 선택해주세요.</h3>
+            <v-row>
+              <v-col
                 v-for="genre in genres"
-                :label="genre.name"
                 :key="genre.id"
-                @click="addLikeGenres(genre)"
-                required
-              ></v-text-field>
-              <v-btn type="submit" color="yellow darken-2" class="mt-4">Sign Up</v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
+                cols="3"
+                class="checkbox-column"
+              >
+                <v-checkbox
+                  style="font-weight:bold"
+                  :label="genre.name"
+                  :value="genre.id"
+                  @change="addLikeGenres(genre)"
+                  required
+                  dense
+                ></v-checkbox>
+              </v-col>
+            </v-row>
+            <v-btn type="submit" color="yellow darken-2" class="mt-4" :disabled="!hasSelectedGenres">Sign Up</v-btn>
+          </v-form>
+        <!-- </v-card-text>
+      </v-card> -->
       </v-col>
     </v-row>
   </v-container>
@@ -55,6 +65,7 @@ export default {
   name: 'SignUpView',
   data() {
     return {
+      state : true,
       userinfo: {
         login_id: '',
         username: '',
@@ -64,6 +75,11 @@ export default {
       },
       genres: [],
     }
+  },
+  computed:{
+    hasSelectedGenres() {
+      return this.userinfo.like_genres.length > 0;
+    },
   },
   methods: {
     signup() {
@@ -84,6 +100,7 @@ export default {
         console.log('signup error')
         console.log(this.userinfo)
         console.log(err)
+        this.state = false
       })
     },
     getGenres() {
@@ -107,10 +124,14 @@ export default {
         }
       } else {
         this.userinfo.like_genres.push(genre.id)
+        console.log(this.userinfo.like_genres)
       }
+      
     }
+    
   },
   created(){
+    this.state = true
     this.getGenres()
     // if(this.$store.state.token==null){
     //     alert('로그인이 필요합니다.')
@@ -122,5 +143,24 @@ export default {
 <style scoped>
 .grey-dark {
   background-color: #616161;
+}
+
+.signup-image {
+  width: 100%;
+  height: 400px;
+ background-image: linear-gradient(
+    to bottom,
+    /* rgba(250,250,250,1) 0%, */
+    /* rgba(250,250,250,0.7) 10%, */
+    /* rgba(250,250,250,0.5) 20%, */
+    /* rgba(250,250,250,0.4) 30%, */
+    rgba(250,250,250,0.3) 40%,
+    rgba(250,250,250,0.3) 60%,
+    rgba(250,250,250,0.4) 70%,
+    rgba(250,250,250,0.5) 80%,
+    rgba(250,250,250,0.7) 90%,
+    rgba(250,250,250,1) 100%
+    ),url("../assets/pic3.jpg");
+  background-size: cover;
 }
 </style>
