@@ -166,5 +166,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.User'
 
 # 유튜브 키
-YOUTUBE_API_KEY = 'AIzaSyBcvqfNSPfb5srklFfCrRH3pWBcwaH0TgM'
+YOUTUBE_API_KEY = 'AIzaSyDppU9fnDizrCotNmi2OUHi5GRNRgCKDxE'
 youtube = build("youtube", "v3", developerKey=YOUTUBE_API_KEY)
