@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <div style="margin : 50px;">
+    <div style="margin : 30px;">
     <v-row>
       <v-col cols="12" sm="6" md="4" lg="4" class="posterColumn">
         <v-img :src="getImageUrl(movie.poster_path)" class="moviePoster"></v-img>

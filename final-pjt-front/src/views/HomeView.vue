@@ -3,7 +3,7 @@
     <div class="user-wrap">
       <div class="user-image1">
       <div class="user-text1">
-        <p style="font-size:40px; color:white; font-weight: bold;">평점으로 보증된 영화, 이건 어때요?</p>
+        <p style="font-size:40px; color:white; font-weight: bold;">평점으로 보장된 영화, 이건 어때요?</p>
       </div>
       </div>
     </div>

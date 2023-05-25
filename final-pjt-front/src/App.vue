@@ -2,7 +2,11 @@
   <v-app style="background-color:#FAFAFA; font-family: 'Gowun Dodum', sans-serif;">
     <v-app-bar app style="background-color:rgba(24, 22, 22, 0.9); color:white;">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" style="color:white;"></v-app-bar-nav-icon>
-      <v-toolbar-title @click="goTo('home')" style="cursor:pointer">Cinema</v-toolbar-title>
+      <v-toolbar-title @click="goTo('home')" style="cursor:pointer" class="d-flex ">
+        <img src="@/assets/colorvie.webp" style="width:30px; margin-right:7px">
+        <!-- <img src="@/assets/colorvie.webp" style="width:30px; margin-right:10px; margin-top:5px;"> -->
+        <span>ColorVie</span>
+        </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon @click="openSearchDialog" style="color:white;">
         <v-icon>mdi-magnify</v-icon>
