@@ -14,6 +14,9 @@ from django.db.models import Q,Func
 from django.db.models.functions import Replace
 from django.db.models import Value,CharField
 
+from django.http import JsonResponse
+from googleapiclient.discovery import build
+from django.conf import settings
 
 TMDB_API_KEY = '386ea6e619bc3b5721f33392e34505c2'
 
@@ -355,3 +358,28 @@ def signup_genres(request):
     genres = get_list_or_404(Genre)
     serializer = GenreSerializer(genres, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def search_trailers(request):
+    search_term = request.GET.get('searchTerm', '') + " 메인 예고편"
+    api_key = settings.YOUTUBE_API_KEY
+    youtube = build("youtube", "v3", developerKey=api_key)
+
+    search_response = youtube.search().list(
+        q=search_term,
+        part="snippet",
+        maxResults=5
+    ).execute()
+
+    videos = []
+
+    for search_result in search_response.get("items", []):
+        if search_result["id"]["kind"] == "youtube#video":
+            video = {
+                "title": search_result["snippet"]["title"],
+                "video_id": search_result["id"]["videoId"]
+            }
+            videos.append(video)
+
+    return JsonResponse(videos[0], safe=False)

@@ -26,5 +26,6 @@ urlpatterns = [
     path('review/<int:review_id>/like/', views.review_detail_like, name='review_detail_like'),
     path('articles/<int:article_id>/like/', views.article_datail_like, name='article_datail_like'),
     
-    path('search/',views.search_movies)
+    path('search/',views.search_movies),
+    path('search_trailers/', views.search_trailers),
 ]

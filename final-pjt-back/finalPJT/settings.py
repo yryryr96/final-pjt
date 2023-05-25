@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from googleapiclient.discovery import build
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -163,3 +164,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 유저 모델 재정의
 AUTH_USER_MODEL = 'accounts.User'
+
+# 유튜브 키
+YOUTUBE_API_KEY = 'AIzaSyBcvqfNSPfb5srklFfCrRH3pWBcwaH0TgM'
+youtube = build("youtube", "v3", developerKey=YOUTUBE_API_KEY)

@@ -32,6 +32,14 @@
             <v-icon>mdi-heart</v-icon>
           </v-btn>
           <span style="font-size: 20px; color: rgba(255, 0, 98, 0.7)">{{ movie?.like_users.length }}</span>
+          <v-btn
+            icon
+            @click="searchTrailer"
+            style="margin-left: 10px;"
+          >
+            <v-icon>mdi-play-circle-outline</v-icon>
+          </v-btn>
+          <span style="font-size: 20px; color: gray" @click="searchTrailer">예고편</span>
         </p>
           
         <div class="leftborder">
@@ -60,9 +68,31 @@
       </v-col>
     </v-row>
   </div>
+
+  <!-- 유튜브 예고편 -->
+  <!-- <div id="player">
+
+  </div> -->
+
+  
+
+  <v-dialog v-model="showModal" max-width="800px" overlay-opacity="0.8">
+    <v-card style="text-align:center;">
+      <v-card-title style="font-weight: bold; font-size: 30px;"></v-card-title>
+      <v-card-text>
+        <iframe v-if="trailerUrl" :src="trailerUrl" width="100%" height="400px" frameborder="0" allowfullscreen></iframe>
+      </v-card-text>
+      <v-card-actions style="margin: 0px 10px;">
+        <v-spacer></v-spacer>
+        <v-btn @click="closeTrailerModal">닫기</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
   </div>
 </template>
 
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
 import axios from 'axios'
 import MovieReview from '@/components/movies/MovieReview'
@@ -72,6 +102,9 @@ export default {
         return{
             // title : null,
             movie : null,
+            player: {},
+            showModal: false, // 모달 표시 여부를 관리하는 데이터
+            trailerUrl: '', // 예고편 URL을 저장하는 데이터
         }
     },
     components : {
@@ -129,11 +162,59 @@ export default {
             }).catch((err)=>{
               console.log(err)
             })
-        } 
+        },
+        searchTrailer(){
+          axios({
+            method: 'get',
+            url: `${process.env.VUE_APP_SERVER_URL}/movies/search_trailers?searchTerm='${this.movie?.title}'/`,
+            origin: 'http://localhost:8080/'
+          }).then((res)=>{
+            console.log(res)
+            const video = res.data
+            const videoId = video.video_id
+            const trailerUrl = `https://www.youtube.com/embed/${videoId}`; // 예고편 URL 생성
+
+            this.trailerUrl = trailerUrl; // 모달에 예고편 URL 설정
+            this.showModal = true; // 모달 표시
+            this.$nextTick(() => {
+            this.player = new YT.Player('player', {
+              height: '360',
+              width: '640',
+              videoId: videoId,
+              // events: {
+              // onReady: () => {
+              //   // 재생 시작
+              //   this.player.playVideo();
+              // },
+              // },
+            });
+            });
+          }).catch((err)=>{
+            console.log(err)
+          })
+        },
+        // 예고편 모달 열기
+        openTrailerModal(trailerUrl) {
+          this.trailerUrl = trailerUrl; // 예고편 URL 설정
+          this.showModal = true; // 모달 표시
+        },
+        // 예고편 모달 닫기
+        closeTrailerModal() {
+          this.showModal = false; // 모달 닫기
+          this.trailerUrl = ''; // 예고편 URL 초기화
+        },
     },
     created(){
-        this.getMovie()
-        
+      this.getMovie()
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // YouTube API 스크립트 로드 완료 후 호출
+      // window.onYouTubeIframeAPIReady = () => {
+      //   this.searchTrailer();
+      // }
     }
 }
 </script>
