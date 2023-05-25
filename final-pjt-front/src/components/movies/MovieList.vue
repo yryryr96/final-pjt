@@ -1,10 +1,7 @@
 <template>
   <div>
-    <div>
-      <v-btn @click="getGenreMovies('전체')">#전체</v-btn>
-      <v-btn v-for="genre in genres" :key="genre.id" @click="getGenreMovies(genre.id)" >#{{genre.name}}</v-btn>
-    </div>
-    <v-carousel
+    
+    <!-- <v-carousel
       hide-delimiters
       show-arrows>
       <v-carousel-item
@@ -19,7 +16,18 @@
           />
         </div>
       </v-carousel-item>
-    </v-carousel>
+    </v-carousel> -->
+    <v-container>
+    <v-row>
+      <v-btn @click="getGenreMovies('전체')" style="background-color:rgba(74, 167, 162, 0.8); font-weight: bold; margin-right: 5px; margin-bottom: 10px;">#전체</v-btn>
+      <v-btn v-for="genre in genres" :key="genre.id" @click="getGenreMovies(genre.id)" style="background-color:rgba(74, 167, 162, 0.3); font-weight: bold; margin-right: 5px; margin-bottom: 10px;" >#{{genre.name}}</v-btn>
+    </v-row>  
+    <v-row>
+    <MovieListItem
+    v-for="movie in movies"
+    :key="movie.id"
+    :movie="movie"
+    /></v-row></v-container>
   </div>
 </template>
 
@@ -77,5 +85,8 @@ export default {
 .movie-group {
   display: flex;
   justify-content: space-between;
+}
+.colortest {
+  background-color: rgb(rgb(74, 167, 162), green, blue);
 }
 </style>

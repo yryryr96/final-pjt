@@ -31,6 +31,7 @@
           >
             <v-icon>mdi-heart</v-icon>
           </v-btn>
+          <span style="font-size: 20px; color: rgba(255, 0, 98, 0.7)">{{ movie?.like_users.length }}</span>
         </p>
           
         <div class="leftborder">
@@ -124,6 +125,7 @@ export default {
                 // 좋아하는 영화가 아닌 경우, 추가
                 likeMovies.push(this.movie.id);
               }
+              this.getMovie()
             }).catch((err)=>{
               console.log(err)
             })
