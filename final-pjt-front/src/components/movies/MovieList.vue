@@ -18,7 +18,7 @@
       </v-carousel-item>
     </v-carousel> -->
     <v-container>
-    <v-row>
+    <v-row style="margin-left : 3px;">
       <v-btn @click="getGenreMovies('전체')" style="background-color:rgba(74, 167, 162, 0.8); font-weight: bold; margin-right: 5px; margin-bottom: 10px;">#전체</v-btn>
       <v-btn v-for="genre in genres" :key="genre.id" @click="getGenreMovies(genre.id)" style="background-color:rgba(74, 167, 162, 0.3); font-weight: bold; margin-right: 5px; margin-bottom: 10px;" >#{{genre.name}}</v-btn>
     </v-row>  

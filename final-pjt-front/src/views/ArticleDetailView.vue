@@ -65,7 +65,7 @@
         <p>글 번호 : {{ article?.id }}</p>
         <p>작성자 : {{ article?.user }}</p>
         <p>작성시간 : {{ article?.created_at.slice(0, 10) }} / {{article?.created_at.slice(11, 19)}}</p>
-        <p>수정시간 : {{ article?.updated_at.slice(0, 10) }} / {{article?.created_at.slice(11, 19)}}</p>
+        <p>수정시간 : {{ article?.updated_at.slice(0, 10) }} / {{article?.updated_at.slice(11, 19)}}</p>
         <hr>
         <br>
         </div>
