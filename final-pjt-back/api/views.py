@@ -177,9 +177,10 @@ def movie_detail(request, movie_id):
         actors.sort(key = lambda x : -x[1])
         directors.sort(key = lambda x : -x[1])
         Ac = []
-        for i in range(4):
+        for i in range(len(actors)):
+            if i == 4 :
+                break;
             Ac.append(actors[i][0])
-        
         setattr(moviedetail, 'actors', Ac)
         setattr(moviedetail, 'directors', directors[0][0])
 

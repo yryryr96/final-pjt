@@ -9,6 +9,7 @@ attrs==22.2.0
 backcall==0.2.0
 beautifulsoup4==4.11.1
 bleach==5.0.1
+cachetools==5.3.0
 certifi==2022.12.7
 cffi==1.15.1
 charset-normalizer==3.1.0
@@ -31,6 +32,12 @@ executing==1.2.0
 Faker==13.3.4
 fastjsonschema==2.16.2
 fqdn==1.5.1
+google-api-core==2.11.0
+google-api-python-client==2.87.0
+google-auth==2.18.1
+google-auth-httplib2==0.1.0
+googleapis-common-protos==1.59.0
+httplib2==0.22.0
 idna==3.4
 importlib-metadata==6.0.0
 ipykernel==6.20.1
@@ -71,13 +78,17 @@ Pillow==9.5.0
 platformdirs==2.6.2
 prometheus-client==0.15.0
 prompt-toolkit==3.0.38
+protobuf==4.23.1
 psutil==5.9.4
 psycopg2==2.9.3
 ptyprocess==0.7.0
 pure-eval==0.2.2
+pyasn1==0.5.0
+pyasn1-modules==0.3.0
 pycparser==2.21
 Pygments==2.14.0
 PyJWT==2.7.0
+pyparsing==3.0.9
 pyrsistent==0.19.3
 python-dateutil==2.8.2
 python-json-logger==2.0.4
@@ -92,6 +103,7 @@ requests-oauthlib==1.3.1
 rest-framework-simplejwt==0.0.2
 rfc3339-validator==0.1.4
 rfc3986-validator==0.1.1
+rsa==4.9
 Send2Trash==1.8.0
 six==1.16.0
 sniffio==1.3.0
@@ -105,6 +117,7 @@ tornado==6.2
 traitlets==5.9.0
 typing_extensions==4.5.0
 uri-template==1.2.0
+uritemplate==4.1.1
 urllib3==1.26.15
 wcwidth==0.2.6
 webcolors==1.12
