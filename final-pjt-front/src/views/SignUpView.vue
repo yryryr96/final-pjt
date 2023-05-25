@@ -108,7 +108,6 @@ export default {
             localStorage.setItem('token',res2.data.token.access)
             this.$store.dispatch('setToken')
             this.$store.dispatch('setUser',res2.data)
-            this.$store.dispatch('getRecommendedMovies')
             this.$router.push({name : 'home'})
           }).catch((err2)=>{
             console.log(err2)

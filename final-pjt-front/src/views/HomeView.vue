@@ -46,6 +46,9 @@ export default {
       return this.$store.getters.getRecommendedMovies
     }
   },
+  created(){
+    // this.$store.dispatch('getRecommendedMovies')
+  }
 }
 </script>
 

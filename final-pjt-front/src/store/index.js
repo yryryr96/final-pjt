@@ -37,6 +37,8 @@ export default new Vuex.Store({
     },
     SET_RECOMMENDED_MOVIES(state,movies){
       state.recommended_movies = movies
+      console.log("setRECO")
+      console.log(state.user)
       console.log(state.recommended_movies)
       
     },

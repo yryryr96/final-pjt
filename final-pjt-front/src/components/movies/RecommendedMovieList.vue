@@ -58,6 +58,8 @@ export default {
   },
   created() {
     this.$store.dispatch('getRecommendedMovies');
+    console.log("RECOLIST ITEM",this.movies)
+    this.movies = this.$store.state.recommended_movies
   },
   mounted() {
     const savedCarouselIndex = sessionStorage.getItem('carouselIndex');
