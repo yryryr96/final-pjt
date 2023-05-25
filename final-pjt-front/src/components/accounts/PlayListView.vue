@@ -18,7 +18,7 @@
             :key="movieIndex"
             :movie_id="movie_id"
             v-if="movieIndex < 8"
-            style="margin-right: 10px;"
+            style="margin-right:20px; margin-top:20px;"
           />
         </div>
       </v-carousel-item>

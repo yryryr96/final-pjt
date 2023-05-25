@@ -19,7 +19,13 @@ export default {
         },
         goDetail(){
             this.$router.push({name:'MovieDetailView',params : {movie_id : this.movie.id}})
-        }
+        },
+        zoomInImage(event){
+            event.target.style.transform = 'scale(1.1)';
+        },
+        zoomOutImage(event){
+            event.target.style.transform = 'scale(1)';
+        },
     },
 
 }

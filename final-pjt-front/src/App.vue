@@ -197,6 +197,7 @@ export default {
         }
       })
         .then((res) => {
+          this.drawer = false
           this.searchResults = res.data;
           this.showSearchDialog = false;
           this.showSearchResultDialog = true;
@@ -216,6 +217,7 @@ export default {
         method : 'delete',
         url : `${process.env.VUE_APP_SERVER_URL}/accounts/auth/`
       }).then((res)=>{
+        this.drawer = false
         localStorage.removeItem('token')
         this.$store.dispatch('logout')
         console.log(this.$store.state.recommended_movies)
@@ -237,10 +239,10 @@ export default {
       for (const user of this.$store.state.users) {
         if (this.$store.state.user.id == user.id) {
           this.username = user.username
-          this.drawer = false
         }
       }
       this.$router.push({name: 'ProfileView', params: {username: this.username}})
+      this.drawer = false
     },
     getUser() {
       axios({
@@ -260,6 +262,7 @@ export default {
       this.showSearchDialog = true;
     },
     closeSearchDialog() {
+      this.drawer = false
       this.showSearchDialog = false;
       this.clearSearch();
     },
@@ -290,6 +293,7 @@ export default {
   margin-right : 20px;
   border:2px solid rgba(126, 119, 119, 0.5); 
   border-radius: 10px 10px 10px 10px;
+  cursor : pointer;
 }
 
 

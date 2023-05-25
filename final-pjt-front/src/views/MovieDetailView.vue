@@ -105,6 +105,7 @@ export default {
             player: {},
             showModal: false, // 모달 표시 여부를 관리하는 데이터
             trailerUrl: '', // 예고편 URL을 저장하는 데이터
+            playerReady: false,
         }
     },
     components : {
