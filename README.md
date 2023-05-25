@@ -18,7 +18,7 @@
   아침 상의 후 노션에 할 일 작성 ( 싸피 교육 시간 중 해야할 일, 퇴근 후 해야할 일 )
   ```
 
-![image-20230525145412327](assets\image-20230525145412327.png)
+<img src="assets\image-20230525145412327.png" alt="image-20230525145412327"  />
 
 ![image-20230525150010246](assets/image-20230525150010246.png)
 
@@ -102,7 +102,7 @@
 
     <img src="assets\profile2.png">
 
-<img src="C:\Users\SSAFY\Desktop\final_master\FINAL\final-pjt\assets\profile1.png" alt="profile1" style="zoom: 50%;" />
+<img src="assets\profile1.png" alt="profile1" style="zoom: 50%;" />
 
 ![oderprofile](assets\oderprofile.png)
 
@@ -131,7 +131,7 @@
 
   ![moviedetail1](assets\moviedetail1.png)
 
-#### 
+
 
 - #### 영화 검색
 
@@ -141,7 +141,7 @@
 
   <img src="assets\Search1.png" alt="Search1" style="zoom: 50%;" />
 
-![Search2](assets\Search2.png)
+<img src="assets\Search2.png" alt="Search2" style="zoom: 80%;" />
 
 
 
@@ -151,11 +151,11 @@
   유저간 소통을 위한 자유게시판 구현 ( 게시글 생성 / 수정 / 삭제 / 좋아요 / 리뷰, 리뷰 좋아요)
   ```
 
-<img src="C:\Users\SSAFY\Desktop\final_master\FINAL\final-pjt\assets\article.png" alt="article" style="zoom:33%;" />
+<img src="assets\article.png" alt="article" style="zoom:33%;" />
 
-<img src="C:\Users\SSAFY\Desktop\final_master\FINAL\final-pjt\assets\articledetail.png" alt="articledetail" style="zoom:33%;" />
+<img src="assets\articledetail.png" alt="articledetail" style="zoom:33%;" />
 
-<img src="C:\Users\SSAFY\Desktop\final_master\FINAL\final-pjt\assets\create.png" alt="create" style="zoom:33%;" />
+<img src="assets\create.png" alt="create" style="zoom:33%;" />
 
 
 
