@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div>
+      <v-btn @click="getGenreMovies('전체')">#전체</v-btn>
+      <v-btn v-for="genre in genres" :key="genre.id" @click="getGenreMovies(genre.id)" >#{{genre.name}}</v-btn>
+    </div>
     <v-carousel
       hide-delimiters
       show-arrows>
@@ -30,6 +34,7 @@ export default {
   data() {
     return {
       movies: this.$store.state.movies,
+      genres: this.$store.state.genres,
     };
   },
   computed: {
@@ -42,6 +47,29 @@ export default {
       return groups;
     },
   },
+  methods : {
+    getGenreMovies(genreId){
+      const items = []
+      if(genreId==='전체'){
+        this.movies = this.$store.state.movies
+      } else {
+        for(const movie of this.$store.state.movies){
+          for (const genId of movie.genres){
+            if (genreId === genId['id']){
+              console.log(genId)
+              items.push(movie)
+              break
+            }
+          }
+        }
+        console.log(items)
+        this.movies = items
+      }
+    }
+  },
+  created(){
+    console.log(this.$store.state.genres)
+  }
 };
 </script>
 

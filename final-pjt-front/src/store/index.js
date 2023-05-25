@@ -13,6 +13,7 @@ export default new Vuex.Store({
     users : [],
     movies : [],
     articles : [],
+    genres : [],
     user : null,
     token : null,
     top_rated_movies : null,
@@ -58,6 +59,9 @@ export default new Vuex.Store({
       state.token = null
       state.recommended_movies = null
       state.user=null
+    },
+    GET_GENRES(state,genres){
+      state.genres = genres
     }
   },
   actions: {
@@ -195,6 +199,15 @@ export default new Vuex.Store({
     },
     logout(context){
       context.commit('LOGOUT')
+    },
+    getGenres(context){
+      axios({
+        method : 'get',
+        url : `${process.env.VUE_APP_SERVER_URL}/movies/signupgenres/`,
+
+      }).then((res)=>{
+        context.commit("GET_GENRES",res.data)
+      })
     }
   },
   modules: {

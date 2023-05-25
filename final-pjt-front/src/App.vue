@@ -265,6 +265,7 @@ export default {
     this.drawer = false
     this.$store.dispatch('setToken')
     this.$store.dispatch('getMovies')
+    this.$store.dispatch('getGenres')
     this.$store.dispatch('getArticles')
     // 필요한 경우 getUser() 메소드 호출
     this.getUser()
