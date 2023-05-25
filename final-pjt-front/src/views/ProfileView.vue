@@ -4,7 +4,7 @@
       <div class="user-image1">
       <div class="user-text1">
         <p style="font-size:40px; color:white; font-weight: bold;">{{user.username}}님의 플레이리스트</p>
-        <p style="font-weight: 700; color:rgba(40,40,40,0.8)">팔로잉 : {{ user.followings.length }} / 팔로워 : {{ user.followers_count }}</p>
+        <p style="font-weight: 700; color:rgba(40,40,40,0.8)">팔로잉 : {{ user.followings?.length }} / 팔로워 : {{ user.followers_count }}</p>
         <v-btn v-if="this.$store.state.user.id!==user.id && loginUser.followings.includes(user.id)" @click="follow" color="rgba(250,250,250,0.7)" style="font-weight: 700; margin-right: 20px;">Unfollow</v-btn>
         <v-btn v-if="this.$store.state.user.id!==user.id && !loginUser.followings.includes(user.id)" @click="follow" color="rgba(250,250,250,0.7)" style="font-weight: 700; margin-right: 20px;">Follow</v-btn>
         <v-btn
@@ -17,7 +17,6 @@
       </div>
     </div>
     
-    
         <div class="text-center">
         <v-dialog v-model="dialog" width="auto">
         <v-card>
@@ -26,7 +25,7 @@
             </v-card-title>
             <hr>
             <v-card-text>
-            <div v-if="followings && followings.length > 0">
+            <div v-if="followings && followings?.length > 0">
                 
                 <FollowingListItemView
                 v-for="following in followings"
@@ -79,6 +78,7 @@ export default {
     },
     methods: {
         getUser() {
+            console.log(this.$store.state.users)
             for (const user of this.$store.state.users) {
                 if (this.$route.params.username == user.username) {
                     this.user = user

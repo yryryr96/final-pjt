@@ -64,23 +64,23 @@
     </v-navigation-drawer>
 
     <v-main>
-      <router-view />
+      <router-view  :key="$route.fullPath" />
     </v-main>
 
     <v-dialog v-model="showSearchDialog" max-width="500" overlay-opacity="0.8">
-      <v-card style="text-align:center;">
-        <v-card-title>
+      <v-card style="text-align:left;">
+        <v-card-title class="red-placeholder">
           <v-text-field
+            class="red-placeholder"
             v-model="searchText"
-            placeholder="Search"
+            :placeholder="searchTextstate ? '영화 제목을 입력해주세요.' : '제목을 입력해주세요.'"
             @keyup.enter="searchMovies"
             hide-details
             solo
             dense
           ></v-text-field>
         </v-card-title>
-        <p v-if="!searchTextstate" style="color:red;">입력 정보를 확인해주세요.</p>
-        <v-card-actions>
+        <v-card-actions style="">
           <v-spacer></v-spacer>
           <v-btn @click='searchMovies'>Search</v-btn>
           <v-btn @click="closeSearchDialog">Close</v-btn>
@@ -236,12 +236,21 @@ export default {
       }
     },
     goToProfile() {
-      for (const user of this.$store.state.users) {
-        if (this.$store.state.user.id == user.id) {
-          this.username = user.username
-        }
+      console.log("PP")
+      console.log(this.$store.state.user)
+      // for (const user of this.$store.state.users) {
+      //   if (this.$store.state.user.id == user.id) {
+      //     this.username = user.username
+      //   }
+      // }
+      this.username = this.$store.state.user.username
+      const currentRoute = this.$router.currentRoute;
+      const targetRoute = { name: 'ProfileView', params: { username: this.username } };
+
+      if (currentRoute.name !== targetRoute.name || currentRoute.params.username !== targetRoute.params.username) {
+          this.$router.push(targetRoute);
       }
-      this.$router.push({name: 'ProfileView', params: {username: this.username}})
+      // this.$router.push({name: 'ProfileView', params: {username: this.username}})
       this.drawer = false
     },
     getUser() {
@@ -300,7 +309,9 @@ export default {
 .menu-top {
   display : flex;
   justify-content: space-between;
-
+}
+.red-placeholder input::placeholder {
+    color: red !important;
 }
 </style>
 

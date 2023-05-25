@@ -39,7 +39,7 @@
           >
             <v-icon>mdi-play-circle-outline</v-icon>
           </v-btn>
-          <span style="font-size: 20px; color: gray" @click="searchTrailer">예고편</span>
+          <span style="font-size: 20px; color: gray; cursor:pointer;" @click="searchTrailer">예고편</span>
         </p>
           
         <div class="leftborder">

@@ -109,6 +109,7 @@ export default {
             this.$store.dispatch('setToken')
             this.$store.dispatch('setUser',res2.data)
             this.$router.push({name : 'home'})
+            location.reload()
           }).catch((err2)=>{
             console.log(err2)
           })
