@@ -104,7 +104,7 @@
 
 <img src="assets\profile1.png" alt="profile1" style="zoom: 50%;" />
 
-![oderprofile](assets\oderprofile.png)
+<img src="assets\oderprofile.png" alt="oderprofile" style="zoom:80%;" />
 
 - #### Movie
 
@@ -129,7 +129,7 @@
   영화 포스터 클릭 시 디테일로 이동 ( 제목 / 줄거리 / 평점 / 좋아요 / 배우 / 감독 / 리뷰 )
   ```
 
-  ![moviedetail1](assets\moviedetail1.png)
+  <img src="assets\moviedetail1.png" alt="moviedetail1"  />
 
 
 
