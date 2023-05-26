@@ -131,7 +131,7 @@
   영화 포스터 클릭 시 디테일로 이동 ( 제목 / 줄거리 / 평점 / 좋아요 / 배우 / 감독 / 리뷰 / 예고편 )
   ```
 
-  <img src="assets\moviedetail1.png" alt="moviedetail1"  />
+  <img src="assets\detail.PNG" alt="detail" style="zoom: 80%;" />
 
 <img src="assets\image-20230526084722087.png" alt="image-20230526084722087" style="zoom: 50%;" />
 
